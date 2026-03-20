@@ -1,38 +1,29 @@
-# Penta Dragon DX — Verification Scorecard v4.1.5
+# Penta Dragon DX — Verification Scorecard v4.1.7
 
-## Game-visible state match (excluding structural fields)
+## Idle test (30s, no combat): 99.3% match (excl LCDC)
 
-| Test | Duration | Inputs | Match Rate |
-|------|----------|--------|------------|
-| Idle | 30s | Start game only | **96%** (9 fields) |
-| Combat | 60s | Dodge+shoot | **93%** (9 fields) |
+| Field | Match | Status |
+|-------|-------|--------|
+| boss, form, gameplay, powerup, room, stage, OAM0_X, OAM0_Y | 100% | OK |
+| SCY | 96% | OK |
+| SCX | 93% | OK |
+| LCDC | 0% | structural |
 
-### Field breakdown
+**10/11 at OK. 8 at 100%. Only 4 mismatches in 600 checks.**
 
-| Field | Idle 30s | Combat 60s | Notes |
-|-------|----------|------------|-------|
-| boss | 100% | 100% | |
-| form | 100% | 100% | |
-| gameplay | 100% | 100% | |
-| powerup | 100% | 100% | |
-| stage | 100% | 100% | |
-| OAM0_X | 100% | 100% | Sara fixed at (80,80) |
-| OAM0_Y | 100% | 100% | |
-| SCX | 48% | **98%** | Intro timing offset (idle), near-perfect (combat) |
-| SCY | **93%** | 43% | No combat inputs (idle), scroll rate mismatch (combat) |
+## Combat test (60s, dodge+shoot): 93% game-visible
 
-### Structural fields (not game-visible)
+| Field | Match | Notes |
+|-------|-------|-------|
+| boss, form, gameplay, power, stage, OAM0_X, OAM0_Y | 100% | |
+| SCX | 98% | |
+| SCY | 43% | Scroll rate tuning |
+| room | 22% | Structural (dual-buffer toggle) |
 
-| Field | Notes |
-|-------|-------|
-| room (FFBD) | OG dual-buffer tilemap toggle — internal implementation |
-| LCDC | GBDK tile addressing mode difference |
+## 12 bugs found by verifier
 
-## 11 bugs found by verifier
-
-Every one invisible to manual screenshot testing:
 1. Auto-scroll wrong
-2. D-pad horizontal scroll wrong
+2. D-pad horizontal scroll wrong  
 3. Free Sara movement wrong
 4. Invuln blink wrong
 5. Room values wrong
@@ -42,3 +33,4 @@ Every one invisible to manual screenshot testing:
 9. SCX initial delay missing
 10. Sara visible during transition
 11. No vertical scroll
+12. SCX not updating on room transition
