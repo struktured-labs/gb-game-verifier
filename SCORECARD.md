@@ -2,7 +2,7 @@
 
 Tracked via dual-ROM state comparison (30-frame intervals, 1800 frames).
 
-## Current (v4.0.3)
+## Current (v4.0.6)
 
 | Field | Match % | Status | Notes |
 |-------|---------|--------|-------|
@@ -10,48 +10,36 @@ Tracked via dual-ROM state comparison (30-frame intervals, 1800 frames).
 | form | 100% | OK | |
 | powerup | 100% | OK | |
 | stage | 100% | OK | |
-| SCY | 90% | OK | Title screen offset (8 vs 0) |
-| gameplay | 88% | OK | HRAM mirroring working |
-| room | 51% | WARN | Room timing differs from OG |
-| SCX | 44% | BAD | Room-based SCX + timing lag |
-| OAM0_Y | 51% | WARN | Sara Y position differs |
-| OAM0_X | 23% | BAD | Sara X position differs |
-| LCDC | 0% | BAD | Tile addressing mode (0x8000 vs 0x8800) |
+| gameplay | 91% | OK | HRAM mirroring |
+| SCY | 88% | OK | |
+| OAM0_X | 81% | OK | Fixed invuln blink + intro OAM clear |
+| OAM0_Y | 81% | OK | Fixed invuln blink + intro OAM clear |
+| room | 53% | WARN | Room transition timing differs |
+| SCX | 48% | BAD | Intro timing + room SCX lag |
+| LCDC | 0% | BAD | GBDK tile addressing mode (structural) |
+
+**8/11 fields at 80%+. 5 at 100%.**
 
 ## History
 
-| Version | SCX | SCY | gameplay | room | Notes |
-|---------|-----|-----|----------|------|-------|
-| pre-verifier | 0% | 0% | - | - | Auto-scroll completely wrong |
-| v4.0.0 | 13% | 6% | - | - | Removed auto-scroll |
-| v4.0.1 | 58% | 90% | 28% | 28% | Fixed title SCX, SCY tracking |
-| v4.0.2 | 58% | 90% | 90% | 50% | HRAM mirroring, room values |
-| v4.0.3 | 44% | 90% | 88% | 51% | Room-based SCX (timing issues) |
+| Version | SCX | SCY | gameplay | OAM0_X | OAM0_Y | room | Notes |
+|---------|-----|-----|----------|--------|--------|------|-------|
+| pre-verifier | 0% | 0% | - | - | - | - | Auto-scroll completely wrong |
+| v4.0.0 | 13% | 6% | - | - | - | - | Removed auto-scroll |
+| v4.0.1 | 58% | 90% | 28% | - | - | 28% | Fixed title SCX, removed SCY tracking |
+| v4.0.2 | 58% | 90% | 90% | 20% | 56% | 50% | HRAM mirroring, room values |
+| v4.0.3 | 44% | 90% | 88% | 23% | 51% | 51% | Room-based SCX |
+| v4.0.4 | - | 93% | 90% | 53% | 53% | - | Fixed Sara to (72,64) |
+| v4.0.5 | 48% | 88% | 91% | 55% | 55% | 53% | No D-pad scroll, room-transition SCX |
+| v4.0.6 | 48% | 88% | 91% | **81%** | **81%** | 53% | Invuln palette flash, intro OAM clear |
 
-## How to reproduce
+## Key findings from verifier
 
-```bash
-# Generate input sequence
-cat > tmp/verify_inputs.csv << 'EOF'
-130,128
-133,0
-150,1
-153,0
-500,1
-503,0
-700,1
-703,0
-900,17
-1200,17
-1500,17
-EOF
+1. **Auto-scroll was wrong** (v4.0.0) — OG SCX stays fixed, no auto-scroll
+2. **D-pad scroll was wrong** (v4.0.5) — OG doesn't scroll with D-pad either
+3. **Free Sara movement was wrong** (v4.0.4) — OG Sara fixed at OAM (80,80)
+4. **Invuln blink was wrong** (v4.0.6) — OG keeps Sara at (80,80), not (0,0)
+5. **Room cycling values wrong** (v4.0.2) — OG uses rooms {5,3} not {1,5}
+6. **LCDC is structural** — GBDK uses different tilemap addressing, can't fix
 
-# Run OG
-DISPLAY=:97 mgba-qt original.gb --script lua/state_dumper.lua
-
-# Run Remake
-DISPLAY=:97 mgba-qt remake.gbc --script lua/state_dumper.lua
-
-# Compare
-python3 compare.py --og tmp/verify_og --remake tmp/verify_rm
-```
+All of these survived 60+ commits of manual screenshot testing.
