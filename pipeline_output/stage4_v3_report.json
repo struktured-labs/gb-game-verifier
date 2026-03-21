@@ -1,0 +1,147 @@
+{
+  "total_steps": 991,
+  "overall_match_rate": 0.632996972754793,
+  "field_rates": {
+    "stage": 1.0,
+    "reward_gameplay": 1.0,
+    "reward_boss_flag": 1.0,
+    "powerup": 1.0,
+    "reward_hp": 0.6770938446014128,
+    "SCX": 0.4429868819374369,
+    "form": 0.3884964682139253,
+    "reward_lives": 0.37336024217961655,
+    "reward_room": 0.24217961654894046,
+    "SCY": 0.2058526740665994
+  },
+  "first_divergence": {
+    "reward_hp": 432,
+    "reward_lives": 0,
+    "SCX": 0,
+    "form": 168,
+    "SCY": 0,
+    "reward_room": 49
+  },
+  "divergence_count": 100,
+  "divergences": [
+    {
+      "step": 0,
+      "field": "reward_lives",
+      "og": 0,
+      "rm": 23
+    },
+    {
+      "step": 0,
+      "field": "SCX",
+      "og": 0,
+      "rm": 8
+    },
+    {
+      "step": 0,
+      "field": "SCY",
+      "og": 0,
+      "rm": 8
+    },
+    {
+      "step": 1,
+      "field": "reward_lives",
+      "og": 0,
+      "rm": 23
+    },
+    {
+      "step": 1,
+      "field": "SCX",
+      "og": 0,
+      "rm": 8
+    },
+    {
+      "step": 1,
+      "field": "SCY",
+      "og": 0,
+      "rm": 8
+    },
+    {
+      "step": 2,
+      "field": "reward_lives",
+      "og": 0,
+      "rm": 23
+    },
+    {
+      "step": 2,
+      "field": "SCX",
+      "og": 0,
+      "rm": 8
+    },
+    {
+      "step": 2,
+      "field": "SCY",
+      "og": 0,
+      "rm": 8
+    },
+    {
+      "step": 3,
+      "field": "reward_lives",
+      "og": 0,
+      "rm": 23
+    },
+    {
+      "step": 3,
+      "field": "SCX",
+      "og": 0,
+      "rm": 8
+    },
+    {
+      "step": 3,
+      "field": "SCY",
+      "og": 0,
+      "rm": 8
+    },
+    {
+      "step": 4,
+      "field": "reward_lives",
+      "og": 0,
+      "rm": 23
+    },
+    {
+      "step": 4,
+      "field": "SCX",
+      "og": 0,
+      "rm": 8
+    },
+    {
+      "step": 4,
+      "field": "SCY",
+      "og": 0,
+      "rm": 8
+    },
+    {
+      "step": 5,
+      "field": "reward_lives",
+      "og": 0,
+      "rm": 23
+    },
+    {
+      "step": 5,
+      "field": "SCX",
+      "og": 0,
+      "rm": 8
+    },
+    {
+      "step": 5,
+      "field": "SCY",
+      "og": 0,
+      "rm": 8
+    },
+    {
+      "step": 6,
+      "field": "reward_lives",
+      "og": 0,
+      "rm": 23
+    },
+    {
+      "step": 6,
+      "field": "SCX",
+      "og": 0,
+      "rm": 8
+    }
+  ]
+}
