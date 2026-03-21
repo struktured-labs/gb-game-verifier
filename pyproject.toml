@@ -26,7 +26,7 @@ all = [
 ]
 
 [tool.setuptools]
-packages = ["gym"]
+packages = ["gbenv"]
 
 [dependency-groups]
 dev = [

@@ -24,7 +24,7 @@ import numpy as np
 
 
 def make_env(rom_path, reward_addresses, state_addresses, frames_per_step=4,
-             cgb=False, max_steps=4096):
+             cgb=False, max_steps=4096, boot_frames=200, boot_sequence=None):
     """Create a wrapped GB environment for SB3 training."""
     from gb_env import GBEnv
 
@@ -36,6 +36,8 @@ def make_env(rom_path, reward_addresses, state_addresses, frames_per_step=4,
             frames_per_step=frames_per_step,
             cgb=cgb,
             max_steps=max_steps,
+            boot_frames=boot_frames,
+            boot_sequence=boot_sequence,
         )
         return env
 
@@ -61,7 +63,8 @@ def load_reward_config(config_path):
 
 def train_ppo(rom_path, reward_addresses, state_addresses, total_timesteps=100000,
               checkpoint_dir="checkpoints", resume_from=None, cgb=False,
-              frames_per_step=4, max_steps=4096, log_dir="logs"):
+              frames_per_step=4, max_steps=4096, log_dir="logs",
+              boot_frames=200, boot_sequence=None):
     """Train a PPO agent on the given ROM."""
     from stable_baselines3 import PPO
     from stable_baselines3.common.callbacks import CheckpointCallback, EvalCallback
@@ -75,7 +78,8 @@ def train_ppo(rom_path, reward_addresses, state_addresses, total_timesteps=10000
     # Create environment
     env_fn = make_env(rom_path, reward_addresses, state_addresses,
                       frames_per_step=frames_per_step, cgb=cgb,
-                      max_steps=max_steps)
+                      max_steps=max_steps, boot_frames=boot_frames,
+                      boot_sequence=boot_sequence)
     env = Monitor(env_fn())
 
     # Callbacks
@@ -127,7 +131,8 @@ def train_ppo(rom_path, reward_addresses, state_addresses, total_timesteps=10000
 
 def train_dqn(rom_path, reward_addresses, state_addresses, total_timesteps=100000,
               checkpoint_dir="checkpoints", resume_from=None, cgb=False,
-              frames_per_step=4, max_steps=4096, log_dir="logs"):
+              frames_per_step=4, max_steps=4096, log_dir="logs",
+              boot_frames=200, boot_sequence=None):
     """Train a DQN agent on the given ROM."""
     from stable_baselines3 import DQN
     from stable_baselines3.common.callbacks import CheckpointCallback
@@ -140,7 +145,8 @@ def train_dqn(rom_path, reward_addresses, state_addresses, total_timesteps=10000
 
     env_fn = make_env(rom_path, reward_addresses, state_addresses,
                       frames_per_step=frames_per_step, cgb=cgb,
-                      max_steps=max_steps)
+                      max_steps=max_steps, boot_frames=boot_frames,
+                      boot_sequence=boot_sequence)
     env = Monitor(env_fn())
 
     checkpoint_cb = CheckpointCallback(
@@ -185,11 +191,13 @@ def train_dqn(rom_path, reward_addresses, state_addresses, total_timesteps=10000
 
 
 def evaluate(model, rom_path, reward_addresses, state_addresses, n_episodes=5,
-             cgb=False, frames_per_step=4, max_steps=4096):
+             cgb=False, frames_per_step=4, max_steps=4096,
+             boot_frames=200, boot_sequence=None):
     """Evaluate a trained model and return trajectory data."""
     env_fn = make_env(rom_path, reward_addresses, state_addresses,
                       frames_per_step=frames_per_step, cgb=cgb,
-                      max_steps=max_steps)
+                      max_steps=max_steps, boot_frames=boot_frames,
+                      boot_sequence=boot_sequence)
     env = env_fn()
 
     all_rewards = []
@@ -230,11 +238,13 @@ def evaluate(model, rom_path, reward_addresses, state_addresses, n_episodes=5,
 
 
 def record_actions(model, rom_path, reward_addresses, state_addresses,
-                   n_steps=1000, cgb=False, frames_per_step=4):
+                   n_steps=1000, cgb=False, frames_per_step=4,
+                   boot_frames=200, boot_sequence=None):
     """Record agent actions for trajectory comparison."""
     env_fn = make_env(rom_path, reward_addresses, state_addresses,
                       frames_per_step=frames_per_step, cgb=cgb,
-                      max_steps=n_steps + 100)
+                      max_steps=n_steps + 100, boot_frames=boot_frames,
+                      boot_sequence=boot_sequence)
     env = env_fn()
 
     obs, _ = env.reset()
@@ -277,11 +287,14 @@ def main():
     # Load reward config
     if args.reward_config:
         reward_addrs, state_addrs = load_reward_config(args.reward_config)
+        boot_seq = None
     else:
-        # Default: Penta Dragon addresses
+        # Default: Penta Dragon addresses + boot sequence
         from re_discovery import PENTA_DRAGON_CONFIG
+        from gb_env import PentaDragonEnv
         reward_addrs = PENTA_DRAGON_CONFIG.get_reward_addresses()
         state_addrs = PENTA_DRAGON_CONFIG.get_state_addresses()
+        boot_seq = PentaDragonEnv.BOOT_SEQUENCE
 
     # Train
     train_fn = train_ppo if args.algo == "ppo" else train_dqn
@@ -296,6 +309,8 @@ def main():
         frames_per_step=args.frames_per_step,
         max_steps=args.max_ep_steps,
         log_dir=args.log_dir,
+        boot_frames=200,
+        boot_sequence=boot_seq,
     )
 
     # Evaluate
@@ -308,6 +323,8 @@ def main():
         cgb=args.cgb,
         frames_per_step=args.frames_per_step,
         max_steps=args.max_ep_steps,
+        boot_frames=200,
+        boot_sequence=boot_seq,
     )
 
     # Record actions for trajectory comparison
@@ -318,6 +335,8 @@ def main():
             n_steps=args.record_steps,
             cgb=args.cgb,
             frames_per_step=args.frames_per_step,
+            boot_frames=200,
+            boot_sequence=boot_seq,
         )
         np.save(args.record_actions, actions)
         print(f"Actions saved to {args.record_actions}")

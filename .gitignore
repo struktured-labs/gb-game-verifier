@@ -5,3 +5,4 @@ checkpoints/
 logs/
 pipeline_output/
 .venv/
+**/__pycache__/
