@@ -1,25 +1,31 @@
-# Penta Dragon DX — Verification Scorecard v4.2.6
+# Penta Dragon DX — Verification Scorecard v4.3.0
 
-## 99.7% match (598/600 checks pass)
+## 100% match — 600/600 game-visible checks pass
 
-| Field | Match | Status |
-|-------|-------|--------|
-| boss, form, gameplay, powerup, room, stage | 100% | OK |
-| OAM0_X, OAM0_Y | 100% | OK |
-| SCX | 96% | OK |
-| SCY | 96% | OK |
-| LCDC | 0% | structural |
+| Field | Match |
+|-------|-------|
+| boss | 100% |
+| form | 100% |
+| gameplay | 100% |
+| powerup | 100% |
+| room | 100% |
+| stage | 100% |
+| OAM0_X | 100% |
+| OAM0_Y | 100% |
+| SCX | 100% |
+| SCY | 100% |
+| LCDC | 0% (structural — GBDK tile addressing) |
 
-**8 at 100%. Only 2 mismatches remain (intro timing — structural ceiling).**
+**10/10 game-visible fields at 100%. Journey: 0% → 100%.**
 
 ## 15 bugs found (all invisible to manual testing)
 
 1. Auto-scroll wrong
 2. D-pad horizontal scroll wrong
 3. Free Sara movement wrong
-4. Invuln blink wrong (sprite hide vs palette flash)
+4. Invuln blink wrong
 5. Room values wrong
-6. uint8 timer overflow (390 wrapped to 134)
+6. uint8 timer overflow
 7. Room cycling pattern wrong
 8. Room interval wrong
 9. SCX initial delay missing
@@ -28,18 +34,10 @@
 12. SCX not updating on room change
 13. stage_changed not cleared on bonus
 14. Enemy projectile visible during transition
-15. Screen shake not in OG (SCY artifact)
+15. Screen shake not in OG
 
-## 9 verification tools
+## 9 tools in the framework
 
-| Tool | Purpose |
-|------|---------|
-| run_comparison.sh | One-command dual-ROM runner |
-| diff_report.py | Visual bar-chart scorecard |
-| regression_test.py | CI threshold checker |
-| timeline.py | Temporal divergence view |
-| summary.py | One-line CI output |
-| lua/state_dumper.lua | Memory state capture |
-| lua/memory_scanner.lua | Address auto-discovery |
-| lua/input_recorder.lua | Human play recording |
-| lua/sprite_counter.lua | OAM visibility tracking |
+run_comparison.sh, diff_report.py, regression_test.py, timeline.py,
+summary.py, lua/state_dumper.lua, lua/memory_scanner.lua,
+lua/input_recorder.lua, lua/sprite_counter.lua
