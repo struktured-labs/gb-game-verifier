@@ -1,0 +1,322 @@
+{
+  "stage": 2,
+  "name": "mGBA Runtime Memory Analysis",
+  "total_addresses_scanned": 559,
+  "changed_addresses": 221,
+  "top_volatile": [
+    {
+      "addr": "0xFFD1",
+      "range": "HRAM",
+      "changes": 60,
+      "values": "27\u219269",
+      "min_max": [
+        2,
+        99
+      ]
+    },
+    {
+      "addr": "0xFFD4",
+      "range": "HRAM",
+      "changes": 60,
+      "values": "33\u2192120",
+      "min_max": [
+        0,
+        252
+      ]
+    },
+    {
+      "addr": "0xFFD5",
+      "range": "HRAM",
+      "changes": 60,
+      "values": "7\u21926",
+      "min_max": [
+        6,
+        56
+      ]
+    },
+    {
+      "addr": "0xDC59",
+      "range": "WRAM_DC",
+      "changes": 58,
+      "values": "0\u219219",
+      "min_max": [
+        0,
+        255
+      ]
+    },
+    {
+      "addr": "0xDC5F",
+      "range": "WRAM_DC",
+      "changes": 58,
+      "values": "0\u21926",
+      "min_max": [
+        0,
+        255
+      ]
+    },
+    {
+      "addr": "0xDC65",
+      "range": "WRAM_DC",
+      "changes": 58,
+      "values": "0\u219228",
+      "min_max": [
+        0,
+        255
+      ]
+    },
+    {
+      "addr": "0xFFCD",
+      "range": "HRAM",
+      "changes": 57,
+      "values": "1\u21920",
+      "min_max": [
+        0,
+        3
+      ]
+    },
+    {
+      "addr": "0xDC6B",
+      "range": "WRAM_DC",
+      "changes": 57,
+      "values": "0\u219231",
+      "min_max": [
+        0,
+        255
+      ]
+    },
+    {
+      "addr": "0xDC71",
+      "range": "WRAM_DC",
+      "changes": 57,
+      "values": "0\u219227",
+      "min_max": [
+        0,
+        255
+      ]
+    },
+    {
+      "addr": "0xDC9C",
+      "range": "WRAM_DC",
+      "changes": 47,
+      "values": "0\u219212",
+      "min_max": [
+        0,
+        20
+      ]
+    },
+    {
+      "addr": "0xDCAC",
+      "range": "WRAM_DC",
+      "changes": 46,
+      "values": "0\u219220",
+      "min_max": [
+        0,
+        20
+      ]
+    },
+    {
+      "addr": "0xDC87",
+      "range": "WRAM_DC",
+      "changes": 43,
+      "values": "0\u219224",
+      "min_max": [
+        0,
+        255
+      ]
+    },
+    {
+      "addr": "0xDCA7",
+      "range": "WRAM_DC",
+      "changes": 40,
+      "values": "0\u21922",
+      "min_max": [
+        0,
+        255
+      ]
+    },
+    {
+      "addr": "0xFE30",
+      "range": "OAM",
+      "changes": 40,
+      "values": "0\u219216",
+      "min_max": [
+        0,
+        255
+      ]
+    },
+    {
+      "addr": "0xFE34",
+      "range": "OAM",
+      "changes": 40,
+      "values": "0\u219216",
+      "min_max": [
+        0,
+        255
+      ]
+    },
+    {
+      "addr": "0xFE38",
+      "range": "OAM",
+      "changes": 40,
+      "values": "0\u219224",
+      "min_max": [
+        0,
+        224
+      ]
+    },
+    {
+      "addr": "0xFE3C",
+      "range": "OAM",
+      "changes": 40,
+      "values": "0\u219224",
+      "min_max": [
+        0,
+        224
+      ]
+    },
+    {
+      "addr": "0xDC9F",
+      "range": "WRAM_DC",
+      "changes": 38,
+      "values": "0\u2192225",
+      "min_max": [
+        0,
+        248
+      ]
+    },
+    {
+      "addr": "0xFE12",
+      "range": "OAM",
+      "changes": 38,
+      "values": "0\u219285",
+      "min_max": [
+        0,
+        85
+      ]
+    },
+    {
+      "addr": "0xFE16",
+      "range": "OAM",
+      "changes": 38,
+      "values": "0\u219284",
+      "min_max": [
+        0,
+        85
+      ]
+    },
+    {
+      "addr": "0xFE1A",
+      "range": "OAM",
+      "changes": 38,
+      "values": "0\u219287",
+      "min_max": [
+        0,
+        87
+      ]
+    },
+    {
+      "addr": "0xFE1E",
+      "range": "OAM",
+      "changes": 38,
+      "values": "0\u219286",
+      "min_max": [
+        0,
+        87
+      ]
+    },
+    {
+      "addr": "0xFE22",
+      "range": "OAM",
+      "changes": 38,
+      "values": "0\u21921",
+      "min_max": [
+        0,
+        109
+      ]
+    },
+    {
+      "addr": "0xFE26",
+      "range": "OAM",
+      "changes": 38,
+      "values": "0\u21922",
+      "min_max": [
+        0,
+        109
+      ]
+    },
+    {
+      "addr": "0xFE2A",
+      "range": "OAM",
+      "changes": 38,
+      "values": "0\u21923",
+      "min_max": [
+        0,
+        111
+      ]
+    },
+    {
+      "addr": "0xFE2E",
+      "range": "OAM",
+      "changes": 38,
+      "values": "0\u219215",
+      "min_max": [
+        0,
+        111
+      ]
+    },
+    {
+      "addr": "0xFE32",
+      "range": "OAM",
+      "changes": 38,
+      "values": "0\u219280",
+      "min_max": [
+        0,
+        93
+      ]
+    },
+    {
+      "addr": "0xFE36",
+      "range": "OAM",
+      "changes": 38,
+      "values": "0\u219281",
+      "min_max": [
+        0,
+        92
+      ]
+    },
+    {
+      "addr": "0xFE3A",
+      "range": "OAM",
+      "changes": 38,
+      "values": "0\u219282",
+      "min_max": [
+        0,
+        95
+      ]
+    },
+    {
+      "addr": "0xFE3E",
+      "range": "OAM",
+      "changes": 38,
+      "values": "0\u219283",
+      "min_max": [
+        0,
+        94
+      ]
+    }
+  ],
+  "classifications": {
+    "frame_counter": "0xFFD4 \u2014 increments each frame, range 0-252",
+    "gameplay_mode": "0xFFCD \u2014 values 0-3, frequent changes",
+    "entity_positions": "DC59,DC5F,DC65,DC6B,DC71 \u2014 full range (0-255), enemy X/Y coords",
+    "oam_sprites": "FE10-FE3C \u2014 visible sprite positions during gameplay",
+    "countdown": "0xDCBB \u2014 confirmed timer address"
+  },
+  "findings": [
+    "FFD4 (frame counter) is most volatile HRAM address",
+    "WRAM DC50-DC90 range contains entity data (positions, states)",
+    "OAM slots 4-15 (FE10-FE3C) are enemy/projectile sprites",
+    "221/559 addresses change during gameplay (40%)",
+    "Known addresses (FFBD, FFBF, FFC1) confirmed active"
+  ]
+}
