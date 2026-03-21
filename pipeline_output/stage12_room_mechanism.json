@@ -1,0 +1,1761 @@
+{
+  "rom_analysis": {
+    "ffbd_write_locations": [
+      "0x0B7E",
+      "0x11D2",
+      "0x11FC",
+      "0x4106",
+      "0x30CAF"
+    ],
+    "ffbd_read_locations": [
+      "0x0AD9",
+      "0x4481",
+      "0x23317",
+      "0x37B01"
+    ],
+    "disassembly": {
+      "0x0B7E": [
+        "  0x0B5E: EA 03 DD    LD (0xDD03),A",
+        "  0x0B61: 7D          LD A,L",
+        "  0x0B62: EA 01 DD    LD (0xDD01),A",
+        "  0x0B65: 7C          LD A,H",
+        "  0x0B66: EA 02 DD    LD (0xDD02),A",
+        "  0x0B69: EF          RST 28",
+        "  0x0B6A: FA 05 DD    LD A,(0xDD05)",
+        "  0x0B6D: 3D          DEC A",
+        "  0x0B6E: EA 05 DD    LD (0xDD05),A",
+        "  0x0B71: FA 04 DD    LD A,(0xDD04)",
+        "  0x0B74: F5          PUSH AF",
+        "  0x0B75: C3 BB 0A    JP 0x0ABB",
+        "  0x0B78: F0          LDH A,(n)",
+        "  0x0B79: CE          ADC n",
+        "  0x0B7A: FE          CP n",
+        "  0x0B7B: 00          NOP",
+        "  0x0B7C: 28 25       JR Z,0x25",
+        "  0x0B7E: E0          LDH (n),A",
+        "  0x0B7F: BD          DB 0xBD",
+        "  0x0B80: 47          LD B,A",
+        "  0x0B81: F0          LDH A,(n)",
+        "  0x0B82: EB          DB 0xEB",
+        "  0x0B83: A7          AND A",
+        "  0x0B84: 28 04       JR Z,0x04",
+        "  0x0B86: 1E 2F       LD E,0x2F",
+        "  0x0B88: 18 08       JR,0x0B92",
+        "  0x0B8A: 1E 02       LD E,0x02",
+        "  0x0B8C: F0          LDH A,(n)",
+        "  0x0B8D: BE          CP (HL)",
+        "  0x0B8E: A7          AND A",
+        "  0x0B8F: 28 01       JR Z,0x01",
+        "  0x0B91: 1C          INC E",
+        "  0x0B92: 78          LD A,B",
+        "  0x0B93: CD 28 42    CALL 0x4228",
+        "  0x0B96: F0          LDH A,(n)",
+        "  0x0B97: CD CB 3F    CALL 0x3FCB",
+        "  0x0B9A: D7          RST 10",
+        "  0x0B9B: 7D          LD A,L",
+        "  0x0B9C: E0          LDH (n),A",
+        "  0x0B9D: CF          RST 08",
+        "  0x0B9E: 7C          LD A,H",
+        "  0x0B9F: E0          LDH (n),A",
+        "  0x0BA0: D0          RET NC",
+        "  0x0BA1: 18 06       JR,0x0BA9",
+        "  0x0BA3: F0          LDH A,(n)",
+        "  0x0BA4: CF          RST 08",
+        "  0x0BA5: 6F          LD L,A",
+        "  0x0BA6: F0          LDH A,(n)",
+        "  0x0BA7: D0          RET NC",
+        "  0x0BA8: 67          LD H,A",
+        "  0x0BA9: F0          LDH A,(n)",
+        "  0x0BAA: BC          DB 0xBC",
+        "  0x0BAB: 47          LD B,A",
+        "  0x0BAC: F0          LDH A,(n)",
+        "  0x0BAD: BB          DB 0xBB"
+      ],
+      "0x11D2": [
+        "  0x11B2: A7          AND A",
+        "  0x11B3: 28 07       JR Z,0x07",
+        "  0x11B5: 3D          DEC A",
+        "  0x11B6: 77          LD (HL),A",
+        "  0x11B7: F1          POP AF",
+        "  0x11B8: CB          PREFIX CB",
+        "  0x11B9: E7          RST 20",
+        "  0x11BA: 18 03       JR,0x11BF",
+        "  0x11BC: F1          POP AF",
+        "  0x11BD: CB          PREFIX CB",
+        "  0x11BE: A7          AND A",
+        "  0x11BF: D1          POP DE",
+        "  0x11C0: C1          POP BC",
+        "  0x11C1: E1          POP HL",
+        "  0x11C2: C9          RET",
+        "  0x11C3: F0          LDH A,(n)",
+        "  0x11C4: E1          POP HL",
+        "  0x11C5: A7          AND A",
+        "  0x11C6: C8          RET Z",
+        "  0x11C7: 3D          DEC A",
+        "  0x11C8: 28 04       JR Z,0x04",
+        "  0x11CA: 3D          DEC A",
+        "  0x11CB: C8          RET Z",
+        "  0x11CC: 18 2A       JR,0x11F8",
+        "  0x11CE: 3E 05       LD A,0x05",
+        "  0x11D0: E0          LDH (n),A",
+        "  0x11D1: E5          PUSH HL",
+        "  0x11D2: E0          LDH (n),A",
+        "  0x11D3: BD          DB 0xBD",
+        "  0x11D4: CD 80 0B    CALL 0x0B80",
+        "  0x11D7: CD B8 7C    CALL 0x7CB8",
+        "  0x11DA: F0          LDH A,(n)",
+        "  0x11DB: EB          DB 0xEB",
+        "  0x11DC: A7          AND A",
+        "  0x11DD: 20 07       JR NZ,0x07",
+        "  0x11DF: 16 82       LD D,0x82",
+        "  0x11E1: 3E 03       LD A,0x03",
+        "  0x11E3: CD 33 0D    CALL 0x0D33",
+        "  0x11E6: 3E 02       LD A,0x02",
+        "  0x11E8: E0          LDH (n),A",
+        "  0x11E9: E1          POP HL",
+        "  0x11EA: 3E 01       LD A,0x01",
+        "  0x11EC: E0          LDH (n),A",
+        "  0x11ED: BE          CP (HL)",
+        "  0x11EE: 3E 05       LD A,0x05",
+        "  0x11F0: E0          LDH (n),A",
+        "  0x11F1: E5          PUSH HL",
+        "  0x11F2: CD 80 0B    CALL 0x0B80",
+        "  0x11F5: C3 44 49    JP 0x4944",
+        "  0x11F8: 3E 05       LD A,0x05",
+        "  0x11FA: E0          LDH (n),A",
+        "  0x11FB: E5          PUSH HL",
+        "  0x11FC: E0          LDH (n),A",
+        "  0x11FD: BD          DB 0xBD",
+        "  0x11FE: CD 80 0B    CALL 0x0B80",
+        "  0x1201: CD          CALL nn"
+      ],
+      "0x11FC": [
+        "  0x11DC: A7          AND A",
+        "  0x11DD: 20 07       JR NZ,0x07",
+        "  0x11DF: 16 82       LD D,0x82",
+        "  0x11E1: 3E 03       LD A,0x03",
+        "  0x11E3: CD 33 0D    CALL 0x0D33",
+        "  0x11E6: 3E 02       LD A,0x02",
+        "  0x11E8: E0          LDH (n),A",
+        "  0x11E9: E1          POP HL",
+        "  0x11EA: 3E 01       LD A,0x01",
+        "  0x11EC: E0          LDH (n),A",
+        "  0x11ED: BE          CP (HL)",
+        "  0x11EE: 3E 05       LD A,0x05",
+        "  0x11F0: E0          LDH (n),A",
+        "  0x11F1: E5          PUSH HL",
+        "  0x11F2: CD 80 0B    CALL 0x0B80",
+        "  0x11F5: C3 44 49    JP 0x4944",
+        "  0x11F8: 3E 05       LD A,0x05",
+        "  0x11FA: E0          LDH (n),A",
+        "  0x11FB: E5          PUSH HL",
+        "  0x11FC: E0          LDH (n),A",
+        "  0x11FD: BD          DB 0xBD",
+        "  0x11FE: CD 80 0B    CALL 0x0B80",
+        "  0x1201: CD B8 7C    CALL 0x7CB8",
+        "  0x1204: F0          LDH A,(n)",
+        "  0x1205: EB          DB 0xEB",
+        "  0x1206: A7          AND A",
+        "  0x1207: 20 07       JR NZ,0x07",
+        "  0x1209: 16 82       LD D,0x82",
+        "  0x120B: 3E 02       LD A,0x02",
+        "  0x120D: CD 33 0D    CALL 0x0D33",
+        "  0x1210: AF          XOR A",
+        "  0x1211: E0          LDH (n),A",
+        "  0x1212: BE          CP (HL)",
+        "  0x1213: E0          LDH (n),A",
+        "  0x1214: E1          POP HL",
+        "  0x1215: 3E 05       LD A,0x05",
+        "  0x1217: E0          LDH (n),A",
+        "  0x1218: E5          PUSH HL",
+        "  0x1219: CD 80 0B    CALL 0x0B80",
+        "  0x121C: C3 44 49    JP 0x4944",
+        "  0x121F: 3E 0F       LD A,0x0F",
+        "  0x1221: CD 61 00    CALL 0x0061",
+        "  0x1224: 21 00 76    LD HL,0x7600",
+        "  0x1227: 11 00 B0    LD DE,0xB000",
+        "  0x122A: 01 00       LD BC,0x000x00"
+      ],
+      "0x4106": [
+        "  0x40E6: FC          DB 0xFC",
+        "  0x40E7: EA 08 DD    LD (0xDD08),A",
+        "  0x40EA: EA 00 DD    LD (0xDD00),A",
+        "  0x40ED: 3C          INC A",
+        "  0x40EE: E0          LDH (n),A",
+        "  0x40EF: C1          POP BC",
+        "  0x40F0: C9          RET",
+        "  0x40F1: AF          XOR A",
+        "  0x40F2: E0          LDH (n),A",
+        "  0x40F3: BA          DB 0xBA",
+        "  0x40F4: EA BC DC    LD (0xDCBC),A",
+        "  0x40F7: 21 BD DC    LD HL,0xDCBD",
+        "  0x40FA: 06 1E       LD B,0x1E",
+        "  0x40FC: CD A2 09    CALL 0x09A2",
+        "  0x40FF: 3E FF       LD A,0xFF",
+        "  0x4101: EA BB DC    LD (0xDCBB),A",
+        "  0x4104: 3E 05       LD A,0x05",
+        "  0x4106: E0          LDH (n),A",
+        "  0x4107: BD          DB 0xBD",
+        "  0x4108: 3E 12       LD A,0x12",
+        "  0x410A: E0          LDH (n),A",
+        "  0x410B: CF          RST 08",
+        "  0x410C: AF          XOR A",
+        "  0x410D: EA 06 DD    LD (0xDD06),A",
+        "  0x4110: E0          LDH (n),A",
+        "  0x4111: D0          RET NC",
+        "  0x4112: CD B7 40    CALL 0x40B7",
+        "  0x4115: 3E FF       LD A,0xFF",
+        "  0x4117: E0          LDH (n),A",
+        "  0x4118: 96          SUB (HL)",
+        "  0x4119: CD CE 09    CALL 0x09CE",
+        "  0x411C: 21 C0 AB    LD HL,0xABC0",
+        "  0x411F: 06 04       LD B,0x04",
+        "  0x4121: CD A2 09    CALL 0x09A2",
+        "  0x4124: CD 6C 55    CALL 0x556C",
+        "  0x4127: CD D6 09    CALL 0x09D6",
+        "  0x412A: 21 C2 FF    LD HL,0xFFC2",
+        "  0x412D: 06 04       LD B,0x04",
+        "  0x412F: CD A2 09    CALL 0x09A2",
+        "  0x4132: CD 84 0C    CALL 0x0C84",
+        "  0x4135: CD          CALL nn"
+      ],
+      "0x30CAF": [
+        "  0x30C8F: F7          RST 30",
+        "  0x30C90: BB          DB 0xBB",
+        "  0x30C91: FF          RST 38",
+        "  0x30C92: F7          RST 30",
+        "  0x30C93: FB          EI",
+        "  0x30C94: ED          DB 0xED",
+        "  0x30C95: F7          RST 30",
+        "  0x30C96: D9          RETI",
+        "  0x30C97: FF          RST 38",
+        "  0x30C98: B1          OR C",
+        "  0x30C99: EF          RST 28",
+        "  0x30C9A: 78          LD A,B",
+        "  0x30C9B: C7          RST 00",
+        "  0x30C9C: FC          DB 0xFC",
+        "  0x30C9D: 83          ADD E",
+        "  0x30C9E: FE          CP n",
+        "  0x30C9F: 01 F1 FE    LD BC,0xFEF1",
+        "  0x30CA2: B9          CP C",
+        "  0x30CA3: FE          CP n",
+        "  0x30CA4: E9          JP HL",
+        "  0x30CA5: FE          CP n",
+        "  0x30CA6: B4          DB 0xB4",
+        "  0x30CA7: FF          RST 38",
+        "  0x30CA8: AE          DB 0xAE",
+        "  0x30CA9: FF          RST 38",
+        "  0x30CAA: FE          CP n",
+        "  0x30CAB: F3          DI",
+        "  0x30CAC: BF          CP A",
+        "  0x30CAD: E1          POP HL",
+        "  0x30CAE: BF          CP A",
+        "  0x30CAF: E0          LDH (n),A",
+        "  0x30CB0: BD          DB 0xBD",
+        "  0x30CB1: F6          OR n",
+        "  0x30CB2: DE          SBC n",
+        "  0x30CB3: FB          EI",
+        "  0x30CB4: E5          PUSH HL",
+        "  0x30CB5: FF          RST 38",
+        "  0x30CB6: E3          DB 0xE3",
+        "  0x30CB7: 7E          LD A,(HL)",
+        "  0x30CB8: F2          LD A,(C)",
+        "  0x30CB9: 6F          LD L,A",
+        "  0x30CBA: 39          ADD HL,SP",
+        "  0x30CBB: A7          AND A",
+        "  0x30CBC: 7C          LD A,H",
+        "  0x30CBD: A3          DB 0xA3",
+        "  0x30CBE: 9E          DB 0x9E",
+        "  0x30CBF: D1          POP DE",
+        "  0x30CC0: FF          RST 38",
+        "  0x30CC1: 00          NOP",
+        "  0x30CC2: 7E          LD A,(HL)",
+        "  0x30CC3: 80          ADD B",
+        "  0x30CC4: BC          DB 0xBC",
+        "  0x30CC5: C0          RET NZ",
+        "  0x30CC6: 58          LD E,B",
+        "  0x30CC7: 60          LD H,B",
+        "  0x30CC8: D0          RET NC",
+        "  0x30CC9: 60          LD H,B",
+        "  0x30CCA: 80          ADD B",
+        "  0x30CCB: E0          LDH (n),A",
+        "  0x30CCC: 00          NOP",
+        "  0x30CCD: C0          RET NZ",
+        "  0x30CCE: 00          NOP",
+        "  0x30CCF: 80          ADD B",
+        "  0x30CD0: 00          NOP",
+        "  0x30CD1: 01 03 00    LD BC,0x0003",
+        "  0x30CD4: 07          RLCA",
+        "  0x30CD5: 00          NOP",
+        "  0x30CD6: 0F          RRCA",
+        "  0x30CD7: 00          NOP",
+        "  0x30CD8: 1F          RRA",
+        "  0x30CD9: 00          NOP",
+        "  0x30CDA: 3F          CCF",
+        "  0x30CDB: 00          NOP",
+        "  0x30CDC: 7E          LD A,(HL)",
+        "  0x30CDD: 01 FD       LD BC,0xFD0xFD"
+      ]
+    },
+    "room_transition_table_0x0BBF": [
+      "  0x0BA0: D0          RET NC",
+      "  0x0BA1: 18 06       JR,0x0BA9",
+      "  0x0BA3: F0          LDH A,(n)",
+      "  0x0BA4: CF          RST 08",
+      "  0x0BA5: 6F          LD L,A",
+      "  0x0BA6: F0          LDH A,(n)",
+      "  0x0BA7: D0          RET NC",
+      "  0x0BA8: 67          LD H,A",
+      "  0x0BA9: F0          LDH A,(n)",
+      "  0x0BAA: BC          DB 0xBC",
+      "  0x0BAB: 47          LD B,A",
+      "  0x0BAC: F0          LDH A,(n)",
+      "  0x0BAD: BB          DB 0xBB",
+      "  0x0BAE: 4F          LD C,A",
+      "  0x0BAF: E5          PUSH HL",
+      "  0x0BB0: C5          PUSH BC",
+      "  0x0BB1: 11 00 C0    LD DE,0xC000",
+      "  0x0BB4: CD B1 10    CALL 0x10B1",
+      "  0x0BB7: 11 00 C1    LD DE,0xC100",
+      "  0x0BBA: C1          POP BC",
+      "  0x0BBB: E1          POP HL",
+      "  0x0BBC: C3 B1 10    JP 0x10B1",
+      "  0x0BBF: 00          NOP",
+      "  0x0BC0: 03          INC BC",
+      "  0x0BC1: 07          RLCA",
+      "  0x0BC2: 00          NOP",
+      "  0x0BC3: 01 02 08    LD BC,0x0802",
+      "  0x0BC6: 00          NOP",
+      "  0x0BC7: 05          DEC B",
+      "  0x0BC8: 04          INC B",
+      "  0x0BC9: 06 00       LD B,0x00",
+      "  0x0BCB: 07          RLCA",
+      "  0x0BCC: 03          INC BC",
+      "  0x0BCD: 00          NOP",
+      "  0x0BCE: 05          DEC B",
+      "  0x0BCF: 06 04       LD B,0x04",
+      "  0x0BD1: 00          NOP",
+      "  0x0BD2: 01 08 02    LD BC,0x0208",
+      "  0x0BD5: 01 03 07    LD BC,0x0703",
+      "  0x0BD8: 00          NOP",
+      "  0x0BD9: 01 02 08    LD BC,0x0802",
+      "  0x0BDC: 00          NOP",
+      "  0x0BDD: 05          DEC B",
+      "  0x0BDE: 04          INC B",
+      "  0x0BDF: 06 F5       LD B,0xF5",
+      "  0x0BE1: C5          PUSH BC",
+      "  0x0BE2: D5          PUSH DE",
+      "  0x0BE3: E5          PUSH HL",
+      "  0x0BE4: CD FF 13    CALL 0x13FF",
+      "  0x0BE7: 01 04 DC    LD BC,0xDC04",
+      "  0x0BEA: 2A          LD A,(HL+)",
+      "  0x0BEB: 66          LD H,(HL)",
+      "  0x0BEC: 6F          LD L,A",
+      "  0x0BED: FA B8 DC    LD A,(0xDCB8)",
+      "  0x0BF0: BE          CP (HL)",
+      "  0x0BF1: 38 01       JR C,0x01",
+      "  0x0BF3: AF          XOR A",
+      "  0x0BF4: EA B8 DC    LD (0xDCB8),A",
+      "  0x0BF7: 23          INC HL",
+      "  0x0BF8: E5          PUSH HL",
+      "  0x0BF9: 6F          LD L,A",
+      "  0x0BFA: 87          ADD A",
+      "  0x0BFB: 87          ADD A",
+      "  0x0BFC: 85          ADD L",
+      "  0x0BFD: E1          POP HL",
+      "  0x0BFE: D7          RST 10",
+      "  0x0BFF: 16          LD D,n"
+    ],
+    "section_advance_0x2248": [
+      "  0x2230: EA BA DC    LD (0xDCBA),A",
+      "  0x2233: FA BA DC    LD A,(0xDCBA)",
+      "  0x2236: A7          AND A",
+      "  0x2237: 28 2F       JR Z,0x2F",
+      "  0x2239: 21 85 DC    LD HL,0xDC85",
+      "  0x223C: 06 05       LD B,0x05",
+      "  0x223E: 7E          LD A,(HL)",
+      "  0x223F: A7          AND A",
+      "  0x2240: 20 26       JR NZ,0x26",
+      "  0x2242: 3E 08       LD A,0x08",
+      "  0x2244: D7          RST 10",
+      "  0x2245: 05          DEC B",
+      "  0x2246: 20 F6       JR NZ,0xF6",
+      "  0x2248: AF          XOR A",
+      "  0x2249: EA BA DC    LD (0xDCBA),A",
+      "  0x224C: FA B8 DC    LD A,(0xDCB8)",
+      "  0x224F: 3C          INC A",
+      "  0x2250: EA B8 DC    LD (0xDCB8),A",
+      "  0x2253: CD FD 16    CALL 0x16FD",
+      "  0x2256: CD 4E 17    CALL 0x174E",
+      "  0x2259: CD E0 0B    CALL 0x0BE0",
+      "  0x225C: CD E1 0C    CALL 0x0CE1",
+      "  0x225F: AF          XOR A",
+      "  0x2260: E0          LDH (n),A",
+      "  0x2261: D6          SUB n",
+      "  0x2262: F0          LDH A,(n)",
+      "  0x2263: BF          CP A",
+      "  0x2264: A7          AND A",
+      "  0x2265: C2 F4 27    JP NZ,0x27F4",
+      "  0x2268: 3E 28       LD A,0x28",
+      "  0x226A: E0          LDH (n),A",
+      "  0x226B: F7          RST 30",
+      "  0x226C: 21 85 DC    LD HL,0xDC85",
+      "  0x226F: 11          LD DE,nn"
+    ],
+    "ffce_write_locations": [
+      "0x0AD4",
+      "0x0AF1",
+      "0x131D",
+      "0x1591",
+      "0x16BD",
+      "0x1826",
+      "0x1857",
+      "0x18D0",
+      "0x1A0A",
+      "0x465F",
+      "0x466F",
+      "0x3026F"
+    ],
+    "dc81_write_locations": []
+  },
+  "trace_right_2000": {
+    "initial_state": {
+      "FFBD": 5,
+      "SCX": 12,
+      "DCBB": 255,
+      "FFD4": 42,
+      "FFCD": 1,
+      "DC04": 4,
+      "DCB8": 0,
+      "FFC1": 1,
+      "FFCE": 0,
+      "FFCF": 18,
+      "DC81": 200,
+      "DC82": 200,
+      "FFD6": 9,
+      "FFD9": 0,
+      "FFFD": 0,
+      "FFE5": 5,
+      "FFEB": 0,
+      "DD09": 1,
+      "FFBF": 0,
+      "FFBE": 0,
+      "FFC0": 0,
+      "FFD0": 0,
+      "SCY": 0,
+      "DCDF": 0,
+      "DCE0": 0,
+      "DCDC": 0,
+      "DCDD": 0,
+      "DC85": 0,
+      "DC86": 0,
+      "DC87": 0,
+      "DC88": 0,
+      "DC89": 0
+    },
+    "ffbd_transitions": [
+      {
+        "frame": 23,
+        "from": 5,
+        "to": 3
+      }
+    ],
+    "dc81_transitions": [
+      {
+        "frame": 17,
+        "from": 200,
+        "to": 196
+      },
+      {
+        "frame": 21,
+        "from": 196,
+        "to": 192
+      },
+      {
+        "frame": 25,
+        "from": 192,
+        "to": 188
+      },
+      {
+        "frame": 29,
+        "from": 188,
+        "to": 184
+      },
+      {
+        "frame": 34,
+        "from": 184,
+        "to": 180
+      },
+      {
+        "frame": 37,
+        "from": 180,
+        "to": 176
+      },
+      {
+        "frame": 42,
+        "from": 176,
+        "to": 172
+      },
+      {
+        "frame": 46,
+        "from": 172,
+        "to": 168
+      },
+      {
+        "frame": 50,
+        "from": 168,
+        "to": 164
+      },
+      {
+        "frame": 54,
+        "from": 164,
+        "to": 160
+      },
+      {
+        "frame": 58,
+        "from": 160,
+        "to": 156
+      },
+      {
+        "frame": 62,
+        "from": 156,
+        "to": 152
+      },
+      {
+        "frame": 67,
+        "from": 152,
+        "to": 148
+      },
+      {
+        "frame": 71,
+        "from": 148,
+        "to": 144
+      },
+      {
+        "frame": 75,
+        "from": 144,
+        "to": 140
+      }
+    ],
+    "dc81_total_transitions": 15,
+    "ffcf_transitions": [
+      {
+        "frame": 23,
+        "from": 18,
+        "to": 21
+      },
+      {
+        "frame": 40,
+        "from": 21,
+        "to": 20
+      },
+      {
+        "frame": 57,
+        "from": 20,
+        "to": 21
+      },
+      {
+        "frame": 73,
+        "from": 21,
+        "to": 20
+      }
+    ],
+    "ffce_transitions": [
+      {
+        "frame": 17,
+        "from": 0,
+        "to": 3
+      },
+      {
+        "frame": 79,
+        "from": 3,
+        "to": 0
+      },
+      {
+        "frame": 91,
+        "from": 0,
+        "to": 3
+      },
+      {
+        "frame": 92,
+        "from": 3,
+        "to": 0
+      },
+      {
+        "frame": 103,
+        "from": 0,
+        "to": 3
+      },
+      {
+        "frame": 104,
+        "from": 3,
+        "to": 0
+      },
+      {
+        "frame": 107,
+        "from": 0,
+        "to": 3
+      },
+      {
+        "frame": 108,
+        "from": 3,
+        "to": 0
+      },
+      {
+        "frame": 111,
+        "from": 0,
+        "to": 3
+      },
+      {
+        "frame": 112,
+        "from": 3,
+        "to": 0
+      },
+      {
+        "frame": 128,
+        "from": 0,
+        "to": 3
+      },
+      {
+        "frame": 129,
+        "from": 3,
+        "to": 0
+      },
+      {
+        "frame": 132,
+        "from": 0,
+        "to": 3
+      },
+      {
+        "frame": 133,
+        "from": 3,
+        "to": 0
+      },
+      {
+        "frame": 136,
+        "from": 0,
+        "to": 3
+      },
+      {
+        "frame": 137,
+        "from": 3,
+        "to": 0
+      },
+      {
+        "frame": 153,
+        "from": 0,
+        "to": 3
+      },
+      {
+        "frame": 154,
+        "from": 3,
+        "to": 0
+      },
+      {
+        "frame": 157,
+        "from": 0,
+        "to": 3
+      },
+      {
+        "frame": 158,
+        "from": 3,
+        "to": 0
+      }
+    ],
+    "scx_transitions": [
+      {
+        "frame": 19,
+        "from": 12,
+        "to": 0
+      },
+      {
+        "frame": 23,
+        "from": 0,
+        "to": 4
+      },
+      {
+        "frame": 27,
+        "from": 4,
+        "to": 8
+      },
+      {
+        "frame": 32,
+        "from": 8,
+        "to": 12
+      },
+      {
+        "frame": 36,
+        "from": 12,
+        "to": 0
+      },
+      {
+        "frame": 40,
+        "from": 0,
+        "to": 4
+      },
+      {
+        "frame": 44,
+        "from": 4,
+        "to": 8
+      },
+      {
+        "frame": 48,
+        "from": 8,
+        "to": 12
+      },
+      {
+        "frame": 52,
+        "from": 12,
+        "to": 0
+      },
+      {
+        "frame": 57,
+        "from": 0,
+        "to": 4
+      },
+      {
+        "frame": 61,
+        "from": 4,
+        "to": 8
+      },
+      {
+        "frame": 64,
+        "from": 8,
+        "to": 12
+      },
+      {
+        "frame": 69,
+        "from": 12,
+        "to": 0
+      },
+      {
+        "frame": 73,
+        "from": 0,
+        "to": 4
+      },
+      {
+        "frame": 77,
+        "from": 4,
+        "to": 8
+      }
+    ],
+    "dcb8_transitions": [],
+    "ffd6_transitions": [
+      {
+        "frame": 56,
+        "from": 9,
+        "to": 10
+      },
+      {
+        "frame": 115,
+        "from": 10,
+        "to": 11
+      },
+      {
+        "frame": 176,
+        "from": 11,
+        "to": 12
+      },
+      {
+        "frame": 236,
+        "from": 12,
+        "to": 13
+      },
+      {
+        "frame": 296,
+        "from": 13,
+        "to": 14
+      },
+      {
+        "frame": 356,
+        "from": 14,
+        "to": 15
+      },
+      {
+        "frame": 415,
+        "from": 15,
+        "to": 16
+      },
+      {
+        "frame": 475,
+        "from": 16,
+        "to": 17
+      },
+      {
+        "frame": 535,
+        "from": 17,
+        "to": 18
+      },
+      {
+        "frame": 596,
+        "from": 18,
+        "to": 19
+      },
+      {
+        "frame": 656,
+        "from": 19,
+        "to": 20
+      },
+      {
+        "frame": 716,
+        "from": 20,
+        "to": 21
+      },
+      {
+        "frame": 776,
+        "from": 21,
+        "to": 22
+      },
+      {
+        "frame": 835,
+        "from": 22,
+        "to": 23
+      },
+      {
+        "frame": 895,
+        "from": 23,
+        "to": 24
+      },
+      {
+        "frame": 955,
+        "from": 24,
+        "to": 25
+      },
+      {
+        "frame": 1016,
+        "from": 25,
+        "to": 26
+      },
+      {
+        "frame": 1076,
+        "from": 26,
+        "to": 27
+      },
+      {
+        "frame": 1135,
+        "from": 27,
+        "to": 28
+      },
+      {
+        "frame": 1195,
+        "from": 28,
+        "to": 29
+      },
+      {
+        "frame": 1256,
+        "from": 29,
+        "to": 30
+      },
+      {
+        "frame": 1315,
+        "from": 30,
+        "to": 31
+      },
+      {
+        "frame": 1375,
+        "from": 31,
+        "to": 32
+      },
+      {
+        "frame": 1436,
+        "from": 32,
+        "to": 33
+      },
+      {
+        "frame": 1496,
+        "from": 33,
+        "to": 34
+      },
+      {
+        "frame": 1555,
+        "from": 34,
+        "to": 35
+      },
+      {
+        "frame": 1615,
+        "from": 35,
+        "to": 36
+      },
+      {
+        "frame": 1676,
+        "from": 36,
+        "to": 37
+      },
+      {
+        "frame": 1735,
+        "from": 37,
+        "to": 38
+      },
+      {
+        "frame": 1795,
+        "from": 38,
+        "to": 39
+      }
+    ],
+    "dcbb_transitions": [
+      {
+        "frame": 1220,
+        "from": 255,
+        "to": 254
+      },
+      {
+        "frame": 1654,
+        "from": 254,
+        "to": 253
+      },
+      {
+        "frame": 1829,
+        "from": 253,
+        "to": 252
+      },
+      {
+        "frame": 1895,
+        "from": 252,
+        "to": 247
+      },
+      {
+        "frame": 1912,
+        "from": 247,
+        "to": 246
+      }
+    ],
+    "fffd_transitions": [],
+    "dd09_transitions": [
+      {
+        "frame": 15,
+        "from": 1,
+        "to": 0
+      }
+    ]
+  },
+  "dc81_analysis": {
+    "samples_every_10": [
+      {
+        "frame": 0,
+        "DC81": 200,
+        "SCX": 12,
+        "FFBD": 5,
+        "FFCF": 18
+      },
+      {
+        "frame": 10,
+        "DC81": 200,
+        "SCX": 12,
+        "FFBD": 5,
+        "FFCF": 18
+      },
+      {
+        "frame": 20,
+        "DC81": 196,
+        "SCX": 0,
+        "FFBD": 5,
+        "FFCF": 18
+      },
+      {
+        "frame": 30,
+        "DC81": 184,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 21
+      },
+      {
+        "frame": 40,
+        "DC81": 176,
+        "SCX": 4,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 50,
+        "DC81": 164,
+        "SCX": 12,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 60,
+        "DC81": 156,
+        "SCX": 4,
+        "FFBD": 3,
+        "FFCF": 21
+      },
+      {
+        "frame": 70,
+        "DC81": 148,
+        "SCX": 0,
+        "FFBD": 3,
+        "FFCF": 21
+      },
+      {
+        "frame": 80,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 90,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 100,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 110,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 120,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 130,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 140,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 150,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 160,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 170,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 180,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 190,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 200,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 210,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 220,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 230,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 240,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 250,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 260,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 270,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 280,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 290,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 300,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 310,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 320,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 330,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 340,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 350,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 360,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 370,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 380,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 390,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 400,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 410,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 420,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 430,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 440,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 450,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 460,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 470,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 480,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      },
+      {
+        "frame": 490,
+        "DC81": 140,
+        "SCX": 8,
+        "FFBD": 3,
+        "FFCF": 20
+      }
+    ],
+    "value_range": {
+      "min": 140,
+      "max": 200
+    },
+    "dc81_at_key_frames": {
+      "frame_0": 200,
+      "frame_500": 140,
+      "frame_1000": 140,
+      "frame_1999": 140
+    }
+  },
+  "noop_test": {
+    "ffbd_transitions": [],
+    "dc81_transitions": [],
+    "scx_transitions": [],
+    "dc81_range": {
+      "min": 200,
+      "max": 200
+    },
+    "conclusion": ""
+  },
+  "ffcf_ffce_analysis": {
+    "samples_every_20": [
+      {
+        "frame": 0,
+        "FFCF": 18,
+        "FFCE": 0,
+        "FFBD": 5,
+        "DC81": 200,
+        "SCX": 12
+      },
+      {
+        "frame": 20,
+        "FFCF": 18,
+        "FFCE": 3,
+        "FFBD": 5,
+        "DC81": 196,
+        "SCX": 0
+      },
+      {
+        "frame": 40,
+        "FFCF": 20,
+        "FFCE": 3,
+        "FFBD": 3,
+        "DC81": 176,
+        "SCX": 4
+      },
+      {
+        "frame": 60,
+        "FFCF": 21,
+        "FFCE": 3,
+        "FFBD": 3,
+        "DC81": 156,
+        "SCX": 4
+      },
+      {
+        "frame": 80,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 100,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 120,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 140,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 160,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 180,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 200,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 220,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 240,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 260,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 280,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 300,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 320,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 340,
+        "FFCF": 20,
+        "FFCE": 3,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 360,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 380,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 400,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 420,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 440,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 460,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 480,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 500,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 520,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 540,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 560,
+        "FFCF": 20,
+        "FFCE": 3,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 580,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 600,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 620,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 640,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 660,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 680,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 700,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 720,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 740,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 760,
+        "FFCF": 20,
+        "FFCE": 3,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 780,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 800,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 820,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 840,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 860,
+        "FFCF": 20,
+        "FFCE": 3,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 880,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 900,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 920,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 940,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 960,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      },
+      {
+        "frame": 980,
+        "FFCF": 20,
+        "FFCE": 0,
+        "FFBD": 3,
+        "DC81": 140,
+        "SCX": 8
+      }
+    ]
+  },
+  "extended_trace_5000": {
+    "ffbd_transitions": [
+      {
+        "frame": 23,
+        "from": 5,
+        "to": 3
+      }
+    ],
+    "dcb8_transitions": [],
+    "ffcf_transitions": [
+      {
+        "frame": 23,
+        "from": 18,
+        "to": 21
+      },
+      {
+        "frame": 40,
+        "from": 21,
+        "to": 20
+      },
+      {
+        "frame": 57,
+        "from": 20,
+        "to": 21
+      },
+      {
+        "frame": 73,
+        "from": 21,
+        "to": 20
+      }
+    ],
+    "dc81_zero_frames": [],
+    "ffbd_change_frames": [
+      23
+    ],
+    "scx_avg_interval": 4.142857142857143,
+    "dc81_avg_interval": 4.142857142857143
+  },
+  "summary": {
+    "scroll_position_driven": false,
+    "dc81_reaches_zero_near_transitions": false,
+    "transitions_happen_without_input": false,
+    "noop_transitions_at_same_time_as_right": false,
+    "dcbb_changes_during_2000_frames": true,
+    "dcbb_transitions_count": 5,
+    "ffbd_transitions_with_right_2000f": 1,
+    "ffbd_transitions_with_noop_2000f": 0,
+    "ffbd_transitions_with_right_5000f": 1,
+    "dc81_decrement_rate_frames": 4.142857142857143,
+    "scx_increment_rate_frames": 4.142857142857143,
+    "mechanism": "TIMER/COUNTDOWN DRIVEN: DCBB does change and may be involved in triggering transitions, but at a much slower rate than the remake's section_timer."
+  }
+}
