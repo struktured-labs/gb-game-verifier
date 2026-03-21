@@ -3,6 +3,9 @@ __pycache__/
 tmp/
 checkpoints/
 logs/
-pipeline_output/
+pipeline_output/*.csv
+pipeline_output/*.txt
+pipeline_output/*.npy
+pipeline_output/*.lua
 .venv/
 **/__pycache__/
