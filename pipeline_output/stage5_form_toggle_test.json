@@ -1,0 +1,204 @@
+{
+  "test_name": "stage5_form_toggle_test",
+  "test_date": "2026-03-21",
+  "purpose": "Investigate why OG ROM does not respond to SELECT for form toggling while remake does",
+  "og_rom_results": {
+    "rom": "Penta Dragon (J).gb",
+    "rom_type": "original_dmg",
+    "boot_success": true,
+    "gameplay_detected_frame": 367,
+    "initial_ffbe": 0,
+    "tests": {
+      "test1_single_frame_select": {
+        "description": "Single frame SELECT press, no other buttons",
+        "ffbe_before": 0,
+        "ffbe_after": 0,
+        "changed": false
+      },
+      "test2_hold_select_10f": {
+        "description": "Hold SELECT for 10 frames",
+        "ffbe_before": 0,
+        "ffbe_after": 0,
+        "changed": false
+      },
+      "test3_hold_select_30f": {
+        "description": "Hold SELECT for 30 frames",
+        "ffbe_before": 0,
+        "ffbe_after": 0,
+        "changed": false
+      },
+      "test4_debounce_30f_then_select": {
+        "description": "Full debounce (30 frames all keys released) then single SELECT",
+        "ffbe_before": 0,
+        "ffbe_after": 0,
+        "changed": false
+      },
+      "test5_walk_stop_select": {
+        "description": "Walk RIGHT 60 frames, stop 15 frames, then SELECT",
+        "ffbe_before": 0,
+        "ffbe_after": 0,
+        "changed": false
+      },
+      "test6_select_while_right": {
+        "description": "Press SELECT while holding RIGHT",
+        "ffbe_before": 0,
+        "ffbe_after": 0,
+        "changed": false
+      },
+      "test7_rapid_select_5x": {
+        "description": "5 rapid SELECT presses, 20 frames apart",
+        "ffbe_before": 0,
+        "ffbe_after": 0,
+        "changed": false
+      },
+      "test8_per_frame_monitor": {
+        "description": "Per-frame FFBE monitoring during 5-frame SELECT hold",
+        "ffbe_before": 0,
+        "ffbe_after": 0,
+        "changed": false,
+        "detail": "FFBE=0 on every single frame, DD09=0 (input not blocked)"
+      },
+      "test9_direct_write": {
+        "description": "Direct memory write to FFBE (bypass game logic)",
+        "ffbe_before": 0,
+        "ffbe_after": 1,
+        "changed": true,
+        "detail": "Game accepts and retains the direct write - does not overwrite FFBE"
+      }
+    }
+  },
+  "remake_rom_results": {
+    "rom": "penta_dragon_dx.gbc",
+    "rom_type": "remake_gbc",
+    "boot_success": true,
+    "gameplay_detected_frame": 263,
+    "initial_ffbe": 0,
+    "tests": {
+      "test1_single_frame_select": {
+        "description": "Single frame SELECT press, no other buttons",
+        "ffbe_before": 0,
+        "ffbe_after": 1,
+        "changed": true
+      },
+      "test2_hold_select_10f": {
+        "description": "Hold SELECT for 10 frames",
+        "ffbe_before": 1,
+        "ffbe_after": 0,
+        "changed": true,
+        "detail": "Edge-triggered: toggles on press frame only, not during hold"
+      },
+      "test3_hold_select_30f": {
+        "description": "Hold SELECT for 30 frames",
+        "ffbe_before": 0,
+        "ffbe_after": 1,
+        "changed": true
+      },
+      "test4_debounce_30f_then_select": {
+        "description": "Full debounce (30 frames all keys released) then single SELECT",
+        "ffbe_before": 1,
+        "ffbe_after": 0,
+        "changed": true
+      },
+      "test5_walk_stop_select": {
+        "description": "Walk RIGHT 60 frames, stop 15 frames, then SELECT",
+        "ffbe_before": 0,
+        "ffbe_after": 1,
+        "changed": true
+      },
+      "test6_select_while_right": {
+        "description": "Press SELECT while holding RIGHT",
+        "ffbe_before": 1,
+        "ffbe_after": 0,
+        "changed": true
+      },
+      "test7_rapid_select_5x": {
+        "description": "5 rapid SELECT presses, 20 frames apart",
+        "ffbe_before": 0,
+        "ffbe_after": 1,
+        "changed": true,
+        "detail": "5 toggles: 0->1->0->1->0->1 (all 5 registered correctly)"
+      },
+      "test8_per_frame_monitor": {
+        "description": "Per-frame FFBE monitoring during 5-frame SELECT hold",
+        "ffbe_before": 1,
+        "ffbe_after": 0,
+        "changed": true,
+        "detail": "Toggle occurs exactly 1 frame after addKey(2), edge-triggered"
+      },
+      "test9_direct_write": {
+        "description": "Direct memory write to FFBE (bypass game logic)",
+        "ffbe_before": 0,
+        "ffbe_after": 0,
+        "changed": false,
+        "detail": "Remake overwrites FFBE from internal game state (player.form). Direct write does not persist."
+      }
+    }
+  },
+  "reverse_engineering": {
+    "ffbe_write_locations": {
+      "0x11EC_bank0": {
+        "value_written": 1,
+        "context": "Sets FFBE=1 (Dragon form) as part of item/powerup use routine",
+        "trigger": "FFE1 state machine: FFE1==1 triggers Dragon form",
+        "surrounding_code": "Sets FFE1=2, FFBE=1, FFE5=5, calls 0x0B80, jumps to 0x4944"
+      },
+      "0x1211_bank0": {
+        "value_written": 0,
+        "context": "Sets FFBE=0 (Witch form) as part of item/powerup use routine",
+        "trigger": "FFE1 state machine: FFE1==2 triggers Witch form restore",
+        "surrounding_code": "XOR A -> FFBE=0, FFE1=0, FFE5=5, calls 0x0B80, jumps to 0x4944"
+      },
+      "0x40E3_bank1": {
+        "value_written": 0,
+        "context": "Game initialization/reset: clears all game state including FFBE",
+        "trigger": "Game start/death/restart",
+        "surrounding_code": "Part of massive state clear: FFC0, FFE1, FFEB, FFBE, FFFC, FFC1"
+      }
+    },
+    "input_system": {
+      "joypad_raw": "FF93 - raw joypad state (current frame)",
+      "joypad_prev": "FF95 - previous frame joypad state",
+      "joypad_mask": "FF96 - button mask (0xFF = all buttons allowed)",
+      "joypad_edge": "FF94 = (FF93 XOR FF95) AND FF93 AND FF96 (newly-pressed, masked)",
+      "select_bit": "Bit 2 of FF94 (AND 0x04)",
+      "select_handler": "0x0A6C: checks FF94 AND 0x04, calls item menu at 0x1D5D"
+    },
+    "select_button_behavior": {
+      "og_game": "SELECT opens item/status menu (function 0x1D5D). Menu shows inventory at DCBD+. Form change requires selecting a transformation item from the menu. SELECT does NOT directly toggle FFBE.",
+      "remake": "SELECT directly toggles FFBE (player.form ^= 1) via edge detection in player_update(). This is a remake-specific simplification, NOT faithful to the original game mechanics.",
+      "menu_function_0x1D5D": {
+        "behavior": "Opens Window layer (LCDC bit 5), enters button dispatch loop",
+        "a_button": "Use selected item (may trigger form change via FFE1 state machine)",
+        "b_button": "Close menu (B or SELECT closes, RES bit 5 on LCDC)",
+        "start_button": "Process item with sound effect",
+        "down_up": "Navigate inventory cursor",
+        "ffda_gate": "FFDA controls whether setup code runs before menu, but menu always called"
+      }
+    },
+    "form_change_mechanism": {
+      "description": "Form changes are item-based, not button-based in the OG game",
+      "state_machine": "FFE1 acts as a form-change trigger: 0=none, 1=to-Dragon, 2=to-Witch",
+      "code_at_0x11C3": "Checks FFE1: if 1, sets FFBE=1+FFE1=2; if 2, sets FFBE=0+FFE1=0",
+      "inventory": "DCBD-DCDA region stores items. DCDB is inventory cursor. DCDD is HP.",
+      "note": "At game start, inventory is empty (all zeros at DCBD+), so form toggle is impossible until transformation item is picked up"
+    }
+  },
+  "root_cause": {
+    "summary": "The OG game uses SELECT to open an ITEM MENU, not to directly toggle form. Form changes are item-based (require a transformation powerup item from inventory). The remake incorrectly implements SELECT as a direct form toggle.",
+    "og_behavior": "SELECT opens item/inventory menu (Window layer). Player must have a transformation item and use it from the menu to change form. Without items in inventory, form cannot be changed.",
+    "remake_behavior": "SELECT directly toggles player.form via XOR (player.c line 49: player.form ^= 1). This is edge-triggered and works immediately.",
+    "discrepancy_type": "gameplay_mechanic_mismatch",
+    "severity": "medium",
+    "recommendation": "The remake should implement SELECT as opening an item/status menu, with form change triggered by using a transformation item from inventory. Alternatively, if the remake intends to simplify the mechanic, document it as an intentional deviation from the original."
+  },
+  "key_evidence": {
+    "og_select_handler_addr": "0x0A6C (bank 0)",
+    "og_menu_function_addr": "0x1D5D (bank 0, called by SELECT handler)",
+    "og_form_set_dragon_addr": "0x11EC (bank 0, FFBE=1 when FFE1==1)",
+    "og_form_set_witch_addr": "0x1211 (bank 0, FFBE=0 when FFE1==2)",
+    "og_game_init_addr": "0x40E3 (bank 1, FFBE=0 on game start)",
+    "remake_form_toggle": "src/player.c:49 (player.form ^= 1 on SELECT edge)",
+    "total_og_ffbe_writes": 3,
+    "total_og_ffbe_reads": 11
+  }
+}
