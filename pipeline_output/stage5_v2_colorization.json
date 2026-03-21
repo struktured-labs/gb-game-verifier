@@ -1,0 +1,145 @@
+{
+  "stage": 5,
+  "version": "v2",
+  "rom": "/home/struktured/projects/penta-dragon-remake/rom/working/penta_dragon_dx.gbc",
+  "summary": {
+    "total_sprite_records": 1489,
+    "multi_state_records": 936,
+    "boss_records": 533,
+    "overall_palette_accuracy_strict": "902/1150",
+    "overall_palette_accuracy_excl_flash": "100.0% (all mismatches are intentional invuln/hit flash)",
+    "additional_entity_source": "stage5_entity_pal_summary.txt (earlier extended run)",
+    "all_entity_palettes_correct": true
+  },
+  "entity_palette_accuracy": {
+    "humanoid": {
+      "expected_palette": 6,
+      "correct": 432,
+      "invuln_hit_flash": 112,
+      "incorrect": 0,
+      "total": 544,
+      "accuracy_strict": "79.4%",
+      "accuracy_excl_flash": "100.0%"
+    },
+    "orc": {
+      "expected_palette": 5,
+      "correct": 182,
+      "invuln_hit_flash": 0,
+      "incorrect": 0,
+      "total": 182,
+      "accuracy_strict": "100.0%",
+      "accuracy_excl_flash": "100.0%"
+    },
+    "sara_dragon": {
+      "expected_palette": 1,
+      "correct": 108,
+      "invuln_hit_flash": 44,
+      "incorrect": 0,
+      "total": 152,
+      "accuracy_strict": "71.1%",
+      "accuracy_excl_flash": "100.0%"
+    },
+    "sara_witch": {
+      "expected_palette": 2,
+      "correct": 180,
+      "invuln_hit_flash": 92,
+      "incorrect": 0,
+      "total": 272,
+      "accuracy_strict": "66.2%",
+      "accuracy_excl_flash": "100.0%"
+    },
+    "projectile": {
+      "expected_palette": "varies (0=enemy, 1=dragon, 3=witch)",
+      "correct": "N/A (context-dependent)",
+      "palettes_seen": {
+        "0": 215,
+        "1": 5,
+        "3": 4
+      },
+      "total": 319,
+      "note": "All observed palettes (0, 1, 3) are valid for their context"
+    },
+    "hornet": {
+      "expected_palette": 4,
+      "correct": 12,
+      "invuln_hit_flash": 0,
+      "incorrect": 0,
+      "total": 12,
+      "accuracy_strict": "100.0%",
+      "accuracy_excl_flash": "100.0%",
+      "source": "earlier extended run (frame 500-6500)"
+    },
+    "crow": {
+      "expected_palette": 3,
+      "correct": 4,
+      "invuln_hit_flash": 0,
+      "incorrect": 0,
+      "total": 4,
+      "accuracy_strict": "100.0%",
+      "accuracy_excl_flash": "100.0%",
+      "source": "earlier extended run (frame 500-6500)"
+    },
+    "catfish": {
+      "expected_palette": 7,
+      "correct": 4,
+      "invuln_hit_flash": 0,
+      "incorrect": 0,
+      "total": 4,
+      "accuracy_strict": "100.0%",
+      "accuracy_excl_flash": "100.0%",
+      "source": "earlier extended run (frame 500-6500)"
+    }
+  },
+  "boss_encounter": {
+    "found": true,
+    "boss_type": 1,
+    "boss_name": "Gargoyle (Miniboss 1)",
+    "enter_frame": 8265,
+    "exit_frame": 8611,
+    "duration_frames": 346,
+    "palette_slot": 6,
+    "palette_expected": "OBJ palette 6 (gargoyle)",
+    "sprites_in_boss_oam": 280,
+    "hit_flash_records": 112,
+    "normal_palette_records": 160
+  },
+  "game_states_tested": [
+    "boss_1",
+    "gameplay_dragon",
+    "gameplay_witch",
+    "normal"
+  ],
+  "coverage": {
+    "sara_witch_records": 446,
+    "sara_dragon_records": 490,
+    "form_toggles": "yes (SELECT pressed every 200 frames)",
+    "rooms_visited": [
+      "3",
+      "5"
+    ],
+    "boss_encountered": true,
+    "enemies_types_seen": [
+      "catfish",
+      "crow",
+      "hornet",
+      "humanoid",
+      "orc",
+      "sara_dragon",
+      "sara_witch"
+    ],
+    "frame_range_multi": "780-3000",
+    "frame_range_boss": "1000-8810"
+  },
+  "anomalies": [
+    "None found - all palette assignments correct"
+  ],
+  "notes": [
+    "All Sara palette=0 entries are intentional invulnerability blink (player.invuln > 0 && (invuln & 0x04))",
+    "All boss palette=0 entries are intentional hit flash (boss.hit_flash > 0)",
+    "Projectile palettes vary by context: pal 0=enemy, pal 1=dragon form, pal 3=witch form",
+    "4 orc sprites in boss OAM at boss_enter frame are residual from pre-boss enemy (cleared next frame)",
+    "Boss gargoyle uses palette slot 6 (OBJ) with load_boss_palette(1) loading custom colors",
+    "Additional enemy types (hornet, crow, catfish) verified from extended pre-boss run",
+    "Dragonfly and soldier variants reuse hornet/humanoid tiles respectively (same palettes)"
+  ]
+}
