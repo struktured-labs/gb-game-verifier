@@ -1,0 +1,142 @@
+{
+  "total_steps": 1001,
+  "overall_match_rate": 0.8932317682317682,
+  "field_rates": {
+    "stage": 1.0,
+    "powerup": 1.0,
+    "form": 1.0,
+    "reward_gameplay": 1.0,
+    "reward_boss": 1.0,
+    "SCX": 0.952047952047952,
+    "reward_room": 0.6443556443556444,
+    "SCY": 0.5494505494505495
+  },
+  "first_divergence": {
+    "reward_room": 0,
+    "SCX": 0,
+    "SCY": 108
+  },
+  "divergence_count": 100,
+  "divergences": [
+    {
+      "step": 0,
+      "field": "reward_room",
+      "og": 5,
+      "rm": 3
+    },
+    {
+      "step": 0,
+      "field": "SCX",
+      "og": 12,
+      "rm": 0
+    },
+    {
+      "step": 1,
+      "field": "reward_room",
+      "og": 5,
+      "rm": 3
+    },
+    {
+      "step": 1,
+      "field": "SCX",
+      "og": 12,
+      "rm": 4
+    },
+    {
+      "step": 2,
+      "field": "reward_room",
+      "og": 5,
+      "rm": 3
+    },
+    {
+      "step": 2,
+      "field": "SCX",
+      "og": 12,
+      "rm": 4
+    },
+    {
+      "step": 3,
+      "field": "reward_room",
+      "og": 5,
+      "rm": 3
+    },
+    {
+      "step": 3,
+      "field": "SCX",
+      "og": 12,
+      "rm": 4
+    },
+    {
+      "step": 4,
+      "field": "reward_room",
+      "og": 5,
+      "rm": 3
+    },
+    {
+      "step": 4,
+      "field": "SCX",
+      "og": 12,
+      "rm": 4
+    },
+    {
+      "step": 5,
+      "field": "reward_room",
+      "og": 5,
+      "rm": 3
+    },
+    {
+      "step": 5,
+      "field": "SCX",
+      "og": 0,
+      "rm": 4
+    },
+    {
+      "step": 6,
+      "field": "SCX",
+      "og": 4,
+      "rm": 8
+    },
+    {
+      "step": 9,
+      "field": "SCX",
+      "og": 12,
+      "rm": 8
+    },
+    {
+      "step": 10,
+      "field": "SCX",
+      "og": 0,
+      "rm": 8
+    },
+    {
+      "step": 11,
+      "field": "SCX",
+      "og": 4,
+      "rm": 12
+    },
+    {
+      "step": 12,
+      "field": "SCX",
+      "og": 8,
+      "rm": 12
+    },
+    {
+      "step": 14,
+      "field": "SCX",
+      "og": 0,
+      "rm": 12
+    },
+    {
+      "step": 15,
+      "field": "SCX",
+      "og": 4,
+      "rm": 12
+    },
+    {
+      "step": 16,
+      "field": "SCX",
+      "og": 8,
+      "rm": 0
+    }
+  ]
+}
