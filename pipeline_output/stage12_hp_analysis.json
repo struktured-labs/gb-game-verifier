@@ -1,0 +1,333 @@
+{
+  "test_parameters": {
+    "rom": "Penta Dragon (J).gb",
+    "total_gameplay_frames": 3000,
+    "frame_range": [
+      368,
+      3367
+    ],
+    "gameplay_frame_range": [
+      1,
+      3000
+    ],
+    "movement_strategy": "hold RIGHT + shoot + vertical variation"
+  },
+  "hp_system": {
+    "dcdc_hp_sub": {
+      "description": "Sub-HP counter at 0xDCDC",
+      "values_observed": [
+        0
+      ],
+      "always_zero": true,
+      "analysis": "DCDC remains 0 throughout all 3000 gameplay frames. The sub-HP accumulator is never incremented or decremented during normal gameplay."
+    },
+    "dcdd_hp_main": {
+      "description": "Main HP counter at 0xDCDD",
+      "values_observed": [
+        0
+      ],
+      "always_zero": true,
+      "analysis": "DCDD remains 0 throughout all 3000 gameplay frames. The main HP bar counter is never modified during normal gameplay."
+    },
+    "c07d_hp_display": {
+      "description": "HUD health bar tile at 0xC07D (display buffer)",
+      "values_observed": [
+        0,
+        200,
+        208
+      ],
+      "initial_value": 0,
+      "gameplay_value": 208,
+      "damage_value": 200,
+      "hex_values": {
+        "full_hp": "0xD0 (208)",
+        "damaged": "0xC8 (200)",
+        "uninitialized": "0x00"
+      }
+    },
+    "c07e_hp_flag": {
+      "description": "HUD HP companion byte at 0xC07E",
+      "values_observed": [
+        0,
+        1
+      ],
+      "analysis": "C07E = 1 when HP is full (0xD0), C07E = 0 when HP is damaged (0xC8) or uninitialized"
+    },
+    "c17d_mirror": {
+      "description": "Mirror of C07D at 0xC17D (dual-tilemap)",
+      "always_matches_c07d": true,
+      "analysis": "C17D always matches C07D, confirming dual-tilemap architecture"
+    }
+  },
+  "damage_events": [
+    {
+      "event_num": 1,
+      "gameplay_frame": 2004,
+      "absolute_frame": 2371,
+      "hp_from": 208,
+      "hp_from_hex": "0xD0",
+      "hp_to": 200,
+      "hp_to_hex": "0xC8",
+      "damage_amount": 8,
+      "room": 3,
+      "dcdc": 0,
+      "dcdd": 0,
+      "recovery_frame": 2015,
+      "damage_duration_frames": 11
+    }
+  ],
+  "lives_system": {
+    "ffdd_address": "0xFFDD",
+    "values_observed": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36
+    ],
+    "value_count": 37,
+    "analysis": "FFDD oscillates rapidly between many values (33 unique) every few frames. This is NOT a simple lives counter during gameplay - it appears to be used as a scratch register or DMA-related variable. The oscillation between values like 23, 0, 3, 11, etc. with ~35% frame-to-frame change rate indicates it serves a different purpose during active gameplay.",
+    "most_common_value": 23,
+    "most_common_hex": "0x17"
+  },
+  "room_transitions": [
+    {
+      "gameplay_frame": 1,
+      "room": 5
+    },
+    {
+      "gameplay_frame": 221,
+      "room": 2
+    },
+    {
+      "gameplay_frame": 257,
+      "room": 3
+    },
+    {
+      "gameplay_frame": 312,
+      "room": 5
+    },
+    {
+      "gameplay_frame": 412,
+      "room": 1
+    },
+    {
+      "gameplay_frame": 507,
+      "room": 5
+    },
+    {
+      "gameplay_frame": 606,
+      "room": 1
+    },
+    {
+      "gameplay_frame": 713,
+      "room": 5
+    },
+    {
+      "gameplay_frame": 813,
+      "room": 1
+    },
+    {
+      "gameplay_frame": 908,
+      "room": 5
+    },
+    {
+      "gameplay_frame": 1006,
+      "room": 1
+    },
+    {
+      "gameplay_frame": 1113,
+      "room": 5
+    },
+    {
+      "gameplay_frame": 1213,
+      "room": 1
+    },
+    {
+      "gameplay_frame": 1309,
+      "room": 5
+    },
+    {
+      "gameplay_frame": 1410,
+      "room": 1
+    },
+    {
+      "gameplay_frame": 1507,
+      "room": 5
+    },
+    {
+      "gameplay_frame": 1607,
+      "room": 1
+    },
+    {
+      "gameplay_frame": 1714,
+      "room": 5
+    },
+    {
+      "gameplay_frame": 1813,
+      "room": 1
+    },
+    {
+      "gameplay_frame": 1907,
+      "room": 5
+    },
+    {
+      "gameplay_frame": 1952,
+      "room": 4
+    },
+    {
+      "gameplay_frame": 1960,
+      "room": 3
+    },
+    {
+      "gameplay_frame": 2019,
+      "room": 2
+    },
+    {
+      "gameplay_frame": 2061,
+      "room": 3
+    },
+    {
+      "gameplay_frame": 2103,
+      "room": 4
+    },
+    {
+      "gameplay_frame": 2154,
+      "room": 3
+    },
+    {
+      "gameplay_frame": 2211,
+      "room": 2
+    },
+    {
+      "gameplay_frame": 2254,
+      "room": 3
+    },
+    {
+      "gameplay_frame": 2311,
+      "room": 4
+    },
+    {
+      "gameplay_frame": 2354,
+      "room": 3
+    },
+    {
+      "gameplay_frame": 2403,
+      "room": 2
+    },
+    {
+      "gameplay_frame": 2513,
+      "room": 5
+    },
+    {
+      "gameplay_frame": 2594,
+      "room": 3
+    },
+    {
+      "gameplay_frame": 2704,
+      "room": 4
+    },
+    {
+      "gameplay_frame": 2761,
+      "room": 1
+    },
+    {
+      "gameplay_frame": 2799,
+      "room": 3
+    },
+    {
+      "gameplay_frame": 2808,
+      "room": 2
+    },
+    {
+      "gameplay_frame": 2860,
+      "room": 3
+    },
+    {
+      "gameplay_frame": 2905,
+      "room": 5
+    }
+  ],
+  "summary": {
+    "hp_first_decrease": {
+      "occurred": true,
+      "gameplay_frame": 2004,
+      "description": "HP first decreased at gameplay frame 2004 (absolute frame 2371). C07D dropped from 0xD0 to 0xC8."
+    },
+    "dcdc_dcdd_relationship": {
+      "description": "DCDC (sub-HP at 0xDCDC) and DCDD (main HP at 0xDCDD) both remain at 0 throughout gameplay. ROM analysis shows DCDC accumulates in +/-0x10 steps with overflow/underflow to DCDD, but this system appears to be part of the HP bar rendering pipeline rather than the primary HP state. The actual HP display is tracked via C07D tile values.",
+      "dcdc_role": "Sub-HP accumulator (0x10 per unit, overflow at 0x95 to DCDD). Remains 0 - may only be active during specific game sequences.",
+      "dcdd_role": "Main HP bar counter (incremented/decremented by DCDC overflow). Remains 0 - the tile-based display at C07D appears to be the authoritative HP state.",
+      "c07d_role": "HUD tile at display address C07D. 0xD0=full, 0xC8=damaged. This is the observable HP indicator that changes during enemy contact."
+    },
+    "damage_count": 1,
+    "damage_per_hit": {
+      "observed_values": [
+        8
+      ],
+      "description": "Observed 1 damage event(s). Damage per hit: 8 units (0x08) on the C07D display value."
+    },
+    "lives_decrease_on_death": {
+      "observed": false,
+      "description": "FFDD does not function as a traditional lives counter during gameplay. It oscillates rapidly between many values, suggesting it serves as a scratch register or is part of the DMA/rendering pipeline. No clear life-loss event was observed."
+    },
+    "rooms_visited": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "room_transitions_count": 39,
+    "rooms_time_distribution": {
+      "1": 836,
+      "2": 283,
+      "3": 483,
+      "4": 159,
+      "5": 1239
+    },
+    "key_findings": [
+      "DCDC/DCDD (the documented HP addresses) remain at 0 throughout 3000 frames of gameplay",
+      "The actual HP state is displayed via tile values at C07D/C17D in the HUD tilemap",
+      "Full HP = 0xD0 (208), Damaged HP = 0xC8 (200) at C07D",
+      "One damage event was observed at gameplay frame 2004 (room 3), lasting 11 frames before recovery",
+      "Damage amount per hit: 8 units on the C07D tile display (0xD0 -> 0xC8)",
+      "C07E serves as a health status flag (1=full, 0=damaged/uninitialized)",
+      "FFDD oscillates rapidly and is NOT a simple lives counter during gameplay",
+      "Player traverses rooms 1-5 in a looping pattern, suggesting auto-scrolling dungeon",
+      "The DCDC/DCDD sub-HP system from ROM analysis may only activate during specific events (boss fights, power-ups) or may be vestigial"
+    ]
+  }
+}

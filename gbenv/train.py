@@ -216,12 +216,14 @@ def train_ppo(rom_path, reward_addresses, state_addresses, total_timesteps=10000
 def train_dqn(rom_path, reward_addresses, state_addresses, total_timesteps=100000,
               checkpoint_dir="checkpoints", resume_from=None, cgb=False,
               frames_per_step=4, max_steps=4096, log_dir="logs",
-              boot_frames=200, boot_sequence=None):
-    """Train a DQN agent with CnnPolicy on downsampled GB screen.
+              boot_frames=200, boot_sequence=None, use_cnn=False):
+    """Train a DQN agent with epsilon-greedy exploration.
 
-    Uses DownsampleAndChannelWrapper to convert (144,160) -> (1,36,40)
-    for proper CNN feature extraction. Epsilon-greedy with extended
-    exploration (30% of training, final eps=0.05).
+    When use_cnn=True, wraps observations via DownsampleAndChannelWrapper
+    (144,160) -> (1,36,40) and uses CnnPolicy. Otherwise uses MlpPolicy
+    (faster on CPU, suitable when reward signal is the primary learning driver).
+
+    Epsilon-greedy: starts at 1.0, decays to 0.05 over 30% of training.
     """
     from stable_baselines3 import DQN
     from stable_baselines3.common.callbacks import CheckpointCallback
@@ -235,8 +237,10 @@ def train_dqn(rom_path, reward_addresses, state_addresses, total_timesteps=10000
     env_fn = make_env(rom_path, reward_addresses, state_addresses,
                       frames_per_step=frames_per_step, cgb=cgb,
                       max_steps=max_steps, boot_frames=boot_frames,
-                      boot_sequence=boot_sequence, use_cnn=True)
+                      boot_sequence=boot_sequence, use_cnn=use_cnn)
     env = Monitor(env_fn())
+
+    policy = "CnnPolicy" if use_cnn else "MlpPolicy"
 
     checkpoint_cb = CheckpointCallback(
         save_freq=10000,
@@ -248,7 +252,7 @@ def train_dqn(rom_path, reward_addresses, state_addresses, total_timesteps=10000
         model = DQN.load(resume_from, env=env)
     else:
         model = DQN(
-            "CnnPolicy",
+            policy,
             env,
             verbose=1,
             learning_rate=1e-4,
@@ -264,7 +268,7 @@ def train_dqn(rom_path, reward_addresses, state_addresses, total_timesteps=10000
             tensorboard_log=str(log_path),
         )
 
-    print(f"Training DQN (CnnPolicy) for {total_timesteps} timesteps on {rom_path}")
+    print(f"Training DQN ({policy}) for {total_timesteps} timesteps on {rom_path}")
     model.learn(
         total_timesteps=total_timesteps,
         callback=checkpoint_cb,
@@ -371,6 +375,8 @@ def main():
     parser.add_argument("--record-actions", help="Save recorded actions to .npy file")
     parser.add_argument("--record-steps", type=int, default=1000,
                         help="Steps to record")
+    parser.add_argument("--use-cnn", action="store_true",
+                        help="Use CnnPolicy with downsampled observations (slower, better for images)")
     args = parser.parse_args()
 
     # Load reward config
@@ -402,8 +408,7 @@ def main():
         boot_sequence=boot_seq,
     )
 
-    # DQN uses CnnPolicy with downsampled observations
-    use_cnn = (args.algo == "dqn")
+    use_cnn = args.use_cnn
 
     # Evaluate
     print(f"\n{'='*50}")
