@@ -1,0 +1,41 @@
+{
+  "stage": 4,
+  "version": "v2 \u2014 diverse random exploration + sync_on",
+  "comparison": {
+    "total_steps": 996,
+    "skip_initial": 5,
+    "action_diversity": "13/13 unique actions"
+  },
+  "field_match_rates": {
+    "stage": 1.0,
+    "boss": 1.0,
+    "powerup": 1.0,
+    "reward_boss_flag": 1.0,
+    "gameplay": 1.0,
+    "reward_gameplay_active": 1.0,
+    "form": 0.65,
+    "SCX": 0.54,
+    "room2": 0.32,
+    "lives": 0.3,
+    "SCY": 0.2,
+    "room": 0.16,
+    "timer": 0.0
+  },
+  "overall_match_rate": 0.579,
+  "game_logic_match_rate": "100% (6/6 fields: stage, boss, powerup, boss_flag, gameplay, gameplay_active)",
+  "root_cause": "Boot timing offset: remake enters STATE_PLAYING with different section_timer than OG, causing room/SCX/enemy divergence cascade",
+  "findings": [
+    "Core game logic is 100% correct across all 6 game-logic fields",
+    "Room system matches (5\u21923 transition) but timing offset shifts initial room",
+    "Form toggle works correctly but SELECT timing sensitivity causes divergence",
+    "Lives diverge because different room \u2192 different enemy encounters \u2192 different score \u2192 different extra lives",
+    "SCY impulse model works but is frame-timing sensitive",
+    "DQN and PPO both collapse to single action with MlpPolicy \u2014 needs CnnPolicy"
+  ],
+  "next_steps": [
+    "CnnPolicy for image-based RL (instead of flattened pixel MlpPolicy)",
+    "Curiosity-driven exploration (ICM/RND) for diverse state coverage",
+    "Fix remake stage intro timing to align section_timer with OG",
+    "Add DCDD (HP) to reward shaping for combat-aware training"
+  ]
+}
