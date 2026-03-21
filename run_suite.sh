@@ -52,29 +52,29 @@ for scenario in $SCENARIOS; do
         sd="$DIR/${scenario}_${side}"
         mkdir -p "$sd"
 
-        python3 -c "
-side='$side'; scenario='$scenario'; sd='$sd'; frames=$frames
-input_file='$DIR/inputs_${scenario}.csv'
-with open(f'$sd/dump.lua', 'w') as f:
-    f.write(f'''local frame=0; local inp={{}}
-local fi=io.open(\"{input_file}\",\"r\")
-if fi then for line in fi:lines() do local fr,keys=line:match(\"(%d+),(%d+)\"); if fr then inp[tonumber(fr)]=tonumber(keys) end end fi:close() end
-local csv=io.open(\"{sd}/state.csv\",\"w\")
-csv:write(\"frame,SCX,SCY,room,form,boss,powerup,gameplay,stage,OAM0_Y,OAM0_X\\n\"); csv:flush()
-callbacks:add(\"frame\",function() frame=frame+1; if inp[frame] then emu:setKeys(inp[frame]) end
+        # Paths relative to DIR (mGBA launched from DIR)
+        REL_INPUT="inputs_${scenario}.csv"
+        REL_CSV="${scenario}_${side}/state.csv"
+        printf 'local frame=0; local inp={}\n' > "$sd/dump.lua"
+        printf 'local fi=io.open("%s","r")\n' "$REL_INPUT" >> "$sd/dump.lua"
+        printf 'if fi then for line in fi:lines() do local fr,keys=line:match("(%%d+),(%%d+)"); if fr then inp[tonumber(fr)]=tonumber(keys) end end fi:close() end\n' >> "$sd/dump.lua"
+        printf 'local csv=io.open("%s","w")\n' "$REL_CSV" >> "$sd/dump.lua"
+        cat >> "$sd/dump.lua" << 'LUABLOCK'
+csv:write("frame,SCX,SCY,room,form,boss,powerup,gameplay,stage,OAM0_Y,OAM0_X\n"); csv:flush()
+callbacks:add("frame",function() frame=frame+1; if inp[frame] then emu:setKeys(inp[frame]) end
 if frame%30==0 then
-csv:write(tostring(frame)..\",\"..tostring(emu:read8(0xFF43))..\",\"..tostring(emu:read8(0xFF42))..\",\"..tostring(emu:read8(0xFFBD))..\",\"..tostring(emu:read8(0xFFBE))..\",\"..tostring(emu:read8(0xFFBF))..\",\"..tostring(emu:read8(0xFFC0))..\",\"..tostring(emu:read8(0xFFC1))..\",\"..tostring(emu:read8(0xFFD0))..\",\"..tostring(emu:read8(0xFE00))..\",\"..tostring(emu:read8(0xFE01))..\"\\n\")
+csv:write(tostring(frame)..","..tostring(emu:read8(0xFF43))..","..tostring(emu:read8(0xFF42))..","..tostring(emu:read8(0xFFBD))..","..tostring(emu:read8(0xFFBE))..","..tostring(emu:read8(0xFFBF))..","..tostring(emu:read8(0xFFC0))..","..tostring(emu:read8(0xFFC1))..","..tostring(emu:read8(0xFFD0))..","..tostring(emu:read8(0xFE00))..","..tostring(emu:read8(0xFE01)).."\n")
 csv:flush()
 end
-if frame>={frames} then csv:close(); emu:quit() end end)
-''')
-"
+LUABLOCK
+        printf 'if frame>=%d then csv:close(); emu:quit() end end)\n' "$frames" >> "$sd/dump.lua"
         timeout_sec=$((frames / 30 + 30))
         Xvfb :97 -screen 0 640x480x24 &
         XPID=$!
         sleep 1
-        DISPLAY=:97 QT_QPA_PLATFORM=offscreen SDL_AUDIODRIVER=dummy \
-        timeout "$timeout_sec" mgba-qt "$rom" --script "$sd/dump.lua" -l 0 2>/dev/null || true
+        # Launch mGBA from $DIR so relative paths in Lua work
+        (cd "$DIR" && DISPLAY=:97 QT_QPA_PLATFORM=offscreen SDL_AUDIODRIVER=dummy \
+        timeout "$timeout_sec" mgba-qt "$rom" --script "$sd/dump.lua" -l 0 2>/dev/null) || true
         kill "$XPID" 2>/dev/null; wait "$XPID" 2>/dev/null; sleep 1
     done
 
