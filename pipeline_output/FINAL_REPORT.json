@@ -1,100 +1,23 @@
 {
-  "pipeline_version": "v13 (iteration 10)",
-  "total_iterations": 10,
-  "total_bugs_found": 10,
-  "best_overall_match": "87.9%",
+  "pipeline_version": "v17 (final)",
+  "total_iterations": 17,
+  "total_bugs_found": 13,
+  "best_overall_match": "89.3%",
   "game_logic_match": "100.0% (5/5 fields)",
-  "palette_accuracy": "100.0% (all entity types + boss fights)",
-  "best_agent": "DQN epsilon-greedy (13/13 actions, 95.6% RIGHT)",
+  "palette_accuracy": "100.0%",
+  "noop_room_match": "100%",
+  "agents_trained": 5,
+  "addresses_analyzed": 559,
+  "rom_functions_disassembled": 8,
   "field_results": {
-    "form": {
-      "rate": 1.0,
-      "status": "PERFECT"
-    },
-    "boss": {
-      "rate": 1.0,
-      "status": "PERFECT"
-    },
-    "gameplay": {
-      "rate": 1.0,
-      "status": "PERFECT"
-    },
-    "powerup": {
-      "rate": 1.0,
-      "status": "PERFECT"
-    },
-    "stage": {
-      "rate": 1.0,
-      "status": "PERFECT"
-    },
-    "SCX": {
-      "rate": 0.91,
-      "status": "GOOD \u2014 tick phase offset"
-    },
-    "room": {
-      "rate": 0.61,
-      "status": "KNOWN \u2014 OG structural toggle"
-    },
-    "SCY": {
-      "rate": 0.49,
-      "status": "GOOD \u2014 4-frame tick model correct"
-    }
+    "form": 1.0,
+    "boss": 1.0,
+    "gameplay": 1.0,
+    "powerup": 1.0,
+    "stage": 1.0,
+    "SCX": 0.95,
+    "room": 0.65,
+    "SCY": 0.55
   },
-  "bugs_fixed": [
-    {
-      "id": 1,
-      "desc": "Lives 3\u219223",
-      "file": "gamestate.c"
-    },
-    {
-      "id": 2,
-      "desc": "DCBB timer 0\u2192255",
-      "file": "gamestate.c"
-    },
-    {
-      "id": 3,
-      "desc": "section_timer reset at STATE_PLAYING",
-      "file": "main.c"
-    },
-    {
-      "id": 4,
-      "desc": "SCY UP impulse missing",
-      "file": "level.c"
-    },
-    {
-      "id": 5,
-      "desc": "FFDD is NOT lives (volatile scratch)",
-      "file": "re_discovery.py"
-    },
-    {
-      "id": 6,
-      "desc": "DCDD HP always 0, real HP at C07D",
-      "file": "gb_env.py"
-    },
-    {
-      "id": 7,
-      "desc": "SCY DOWN magnitude 8\u21924",
-      "file": "level.c"
-    },
-    {
-      "id": 8,
-      "desc": "SCY impulse+decay \u2192 4-frame tick + no decay",
-      "file": "level.c"
-    },
-    {
-      "id": 9,
-      "desc": "SELECT opens item menu, not form toggle",
-      "file": "player.c, main.c"
-    },
-    {
-      "id": 10,
-      "desc": "Game logic at 60Hz \u2192 15Hz (4-frame tick)",
-      "file": "main.c, gamestate.c/h"
-    }
-  ],
-  "remaining_known_issues": [
-    "SCX tick phase offset (1-tick misalignment after boot)",
-    "FFBD structural toggle (OG dual-buffer, not gameplay counter)",
-    "SCY tick phase offset (same root cause as SCX)"
-  ]
+  "remaining_gap": "OG room handlers use complex position-check subroutine chains (0x46A1\u21920x46A4\u21920x46C2) with ~20 functions. Full RE needed to go above 89%."
 }
