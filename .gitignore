@@ -9,3 +9,10 @@ pipeline_output/*.npy
 pipeline_output/*.lua
 .venv/
 **/__pycache__/
+checkpoints_cnn*/
+checkpoints_cnn_v2*/
+checkpoints_dqn*/
+checkpoints_mem*/
+checkpoints_ppo*/
+checkpoints_final/
+logs_*/
