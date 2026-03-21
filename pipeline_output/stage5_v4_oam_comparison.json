@@ -1,0 +1,568 @@
+{
+  "version": "stage5_v4",
+  "description": "OAM colorization verification \u2014 OG vs Remake sprite behavior comparison",
+  "og_rom": "Penta Dragon (J).gb",
+  "remake_rom": "penta_dragon_dx.gbc",
+  "total_frames_captured": 2500,
+  "dump_interval": 30,
+  "og_total_oam_entries": 2453,
+  "remake_total_oam_entries": 2249,
+  "gameplay_frame_range": {
+    "og": {
+      "start": 510,
+      "end": 2490
+    },
+    "remake": {
+      "start": 450,
+      "end": 2490
+    }
+  },
+  "tile_id_comparison": {
+    "og_unique_tiles": 69,
+    "remake_unique_tiles": 34,
+    "shared_tiles": 16,
+    "og_only_tiles": [
+      16,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      80,
+      81,
+      82,
+      83,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111
+    ],
+    "remake_only_tiles": [
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      33,
+      35,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75
+    ],
+    "shared_tile_list": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      15,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91
+    ],
+    "og_top10_tiles": [
+      {
+        "tile": 1,
+        "count": 571
+      },
+      {
+        "tile": 15,
+        "count": 384
+      },
+      {
+        "tile": 6,
+        "count": 147
+      },
+      {
+        "tile": 16,
+        "count": 78
+      },
+      {
+        "tile": 5,
+        "count": 74
+      },
+      {
+        "tile": 4,
+        "count": 73
+      },
+      {
+        "tile": 40,
+        "count": 65
+      },
+      {
+        "tile": 41,
+        "count": 65
+      },
+      {
+        "tile": 42,
+        "count": 65
+      },
+      {
+        "tile": 43,
+        "count": 65
+      }
+    ],
+    "remake_top10_tiles": [
+      {
+        "tile": 35,
+        "count": 328
+      },
+      {
+        "tile": 85,
+        "count": 153
+      },
+      {
+        "tile": 84,
+        "count": 153
+      },
+      {
+        "tile": 87,
+        "count": 153
+      },
+      {
+        "tile": 86,
+        "count": 153
+      },
+      {
+        "tile": 88,
+        "count": 149
+      },
+      {
+        "tile": 89,
+        "count": 149
+      },
+      {
+        "tile": 90,
+        "count": 149
+      },
+      {
+        "tile": 91,
+        "count": 149
+      },
+      {
+        "tile": 33,
+        "count": 69
+      }
+    ]
+  },
+  "sprite_count_comparison": {
+    "og_total_frames_with_sprites": 67,
+    "remake_total_frames_with_sprites": 69,
+    "og_avg_sprites_per_frame": 35.6,
+    "remake_avg_sprites_per_frame": 32.6,
+    "og_max_sprites": 40,
+    "remake_max_sprites": 35,
+    "og_min_sprites": 0,
+    "remake_min_sprites": 18,
+    "frame_by_frame": [
+      {
+        "frame": 510,
+        "og": 4,
+        "remake": 23,
+        "diff": 19
+      },
+      {
+        "frame": 540,
+        "og": 29,
+        "remake": 23,
+        "diff": -6
+      },
+      {
+        "frame": 570,
+        "og": 37,
+        "remake": 23,
+        "diff": -14
+      },
+      {
+        "frame": 600,
+        "og": 37,
+        "remake": 24,
+        "diff": -13
+      },
+      {
+        "frame": 630,
+        "og": 37,
+        "remake": 24,
+        "diff": -13
+      },
+      {
+        "frame": 660,
+        "og": 37,
+        "remake": 24,
+        "diff": -13
+      },
+      {
+        "frame": 690,
+        "og": 37,
+        "remake": 28,
+        "diff": -9
+      },
+      {
+        "frame": 720,
+        "og": 37,
+        "remake": 28,
+        "diff": -9
+      },
+      {
+        "frame": 750,
+        "og": 37,
+        "remake": 33,
+        "diff": -4
+      },
+      {
+        "frame": 780,
+        "og": 37,
+        "remake": 33,
+        "diff": -4
+      },
+      {
+        "frame": 810,
+        "og": 37,
+        "remake": 33,
+        "diff": -4
+      },
+      {
+        "frame": 840,
+        "og": 37,
+        "remake": 33,
+        "diff": -4
+      },
+      {
+        "frame": 870,
+        "og": 37,
+        "remake": 33,
+        "diff": -4
+      },
+      {
+        "frame": 900,
+        "og": 37,
+        "remake": 33,
+        "diff": -4
+      },
+      {
+        "frame": 930,
+        "og": 37,
+        "remake": 34,
+        "diff": -3
+      },
+      {
+        "frame": 960,
+        "og": 37,
+        "remake": 34,
+        "diff": -3
+      },
+      {
+        "frame": 990,
+        "og": 37,
+        "remake": 34,
+        "diff": -3
+      },
+      {
+        "frame": 1020,
+        "og": 37,
+        "remake": 34,
+        "diff": -3
+      },
+      {
+        "frame": 1050,
+        "og": 37,
+        "remake": 34,
+        "diff": -3
+      },
+      {
+        "frame": 1080,
+        "og": 37,
+        "remake": 34,
+        "diff": -3
+      },
+      {
+        "frame": 1110,
+        "og": 37,
+        "remake": 34,
+        "diff": -3
+      },
+      {
+        "frame": 1140,
+        "og": 37,
+        "remake": 34,
+        "diff": -3
+      },
+      {
+        "frame": 1170,
+        "og": 37,
+        "remake": 34,
+        "diff": -3
+      },
+      {
+        "frame": 1200,
+        "og": 37,
+        "remake": 34,
+        "diff": -3
+      },
+      {
+        "frame": 1230,
+        "og": 37,
+        "remake": 34,
+        "diff": -3
+      },
+      {
+        "frame": 1260,
+        "og": 37,
+        "remake": 34,
+        "diff": -3
+      },
+      {
+        "frame": 1290,
+        "og": 37,
+        "remake": 34,
+        "diff": -3
+      },
+      {
+        "frame": 1320,
+        "og": 37,
+        "remake": 34,
+        "diff": -3
+      },
+      {
+        "frame": 1350,
+        "og": 37,
+        "remake": 34,
+        "diff": -3
+      },
+      {
+        "frame": 1380,
+        "og": 37,
+        "remake": 34,
+        "diff": -3
+      }
+    ]
+  },
+  "sara_position_comparison": {
+    "common_frames": 67,
+    "position_matches": 67,
+    "position_mismatches": 0,
+    "match_pct": 100.0,
+    "sample_mismatches": []
+  },
+  "flag_comparison": {
+    "og_unique_flag_values": 6,
+    "remake_unique_flag_values": 9,
+    "og_flags_breakdown": {
+      "0": {
+        "count": 1755,
+        "raw": 0,
+        "priority": 0,
+        "y_flip": 0,
+        "x_flip": 0,
+        "dmg_palette": 0,
+        "vram_bank": 0,
+        "cgb_palette": 0
+      },
+      "32": {
+        "count": 521,
+        "raw": 32,
+        "priority": 0,
+        "y_flip": 0,
+        "x_flip": 1,
+        "dmg_palette": 0,
+        "vram_bank": 0,
+        "cgb_palette": 0
+      },
+      "64": {
+        "count": 93,
+        "raw": 64,
+        "priority": 0,
+        "y_flip": 1,
+        "x_flip": 0,
+        "dmg_palette": 0,
+        "vram_bank": 0,
+        "cgb_palette": 0
+      },
+      "16": {
+        "count": 46,
+        "raw": 16,
+        "priority": 0,
+        "y_flip": 0,
+        "x_flip": 0,
+        "dmg_palette": 1,
+        "vram_bank": 0,
+        "cgb_palette": 0
+      },
+      "96": {
+        "count": 36,
+        "raw": 96,
+        "priority": 0,
+        "y_flip": 1,
+        "x_flip": 1,
+        "dmg_palette": 0,
+        "vram_bank": 0,
+        "cgb_palette": 0
+      },
+      "48": {
+        "count": 2,
+        "raw": 48,
+        "priority": 0,
+        "y_flip": 0,
+        "x_flip": 1,
+        "dmg_palette": 1,
+        "vram_bank": 0,
+        "cgb_palette": 0
+      }
+    },
+    "remake_flags_breakdown": {
+      "6": {
+        "count": 724,
+        "raw": 6,
+        "priority": 0,
+        "y_flip": 0,
+        "x_flip": 0,
+        "dmg_palette": 0,
+        "vram_bank": 0,
+        "cgb_palette": 6
+      },
+      "38": {
+        "count": 468,
+        "raw": 38,
+        "priority": 0,
+        "y_flip": 0,
+        "x_flip": 1,
+        "dmg_palette": 0,
+        "vram_bank": 0,
+        "cgb_palette": 6
+      },
+      "0": {
+        "count": 366,
+        "raw": 0,
+        "priority": 0,
+        "y_flip": 0,
+        "x_flip": 0,
+        "dmg_palette": 0,
+        "vram_bank": 0,
+        "cgb_palette": 0
+      },
+      "37": {
+        "count": 260,
+        "raw": 37,
+        "priority": 0,
+        "y_flip": 0,
+        "x_flip": 1,
+        "dmg_palette": 0,
+        "vram_bank": 0,
+        "cgb_palette": 5
+      },
+      "2": {
+        "count": 236,
+        "raw": 2,
+        "priority": 0,
+        "y_flip": 0,
+        "x_flip": 0,
+        "dmg_palette": 0,
+        "vram_bank": 0,
+        "cgb_palette": 2
+      },
+      "5": {
+        "count": 96,
+        "raw": 5,
+        "priority": 0,
+        "y_flip": 0,
+        "x_flip": 0,
+        "dmg_palette": 0,
+        "vram_bank": 0,
+        "cgb_palette": 5
+      },
+      "3": {
+        "count": 69,
+        "raw": 3,
+        "priority": 0,
+        "y_flip": 0,
+        "x_flip": 0,
+        "dmg_palette": 0,
+        "vram_bank": 0,
+        "cgb_palette": 3
+      },
+      "32": {
+        "count": 28,
+        "raw": 32,
+        "priority": 0,
+        "y_flip": 0,
+        "x_flip": 1,
+        "dmg_palette": 0,
+        "vram_bank": 0,
+        "cgb_palette": 0
+      },
+      "34": {
+        "count": 2,
+        "raw": 34,
+        "priority": 0,
+        "y_flip": 0,
+        "x_flip": 1,
+        "dmg_palette": 0,
+        "vram_bank": 0,
+        "cgb_palette": 2
+      }
+    }
+  },
+  "key_findings": [
+    "Tile ID overlap: 23.2% of OG tiles also appear in remake (16/69)",
+    "Gameplay start timing: OG frame 510, Remake frame 450 (delta=60 frames)",
+    "Sara sprite position match: 100.0% across 67 common frames",
+    "Average sprites/frame: OG=35.6, Remake=32.6",
+    "Flag diversity: OG uses 6 unique flag values, Remake uses 9 (expected difference: OG=DMG flags, Remake=CGB palette flags)",
+    "Tiles in OG but not remake: [16, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49]...",
+    "Tiles in remake but not OG: [7, 8, 9, 10, 11, 12, 13, 14, 33, 35, 68, 69, 70, 71, 72]..."
+  ]
+}

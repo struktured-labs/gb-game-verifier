@@ -1,0 +1,189 @@
+{
+  "description": "OG Penta Dragon ROM game state initialization timing after entering gameplay",
+  "methodology": {
+    "rom": "Penta Dragon (J).gb",
+    "tool": "PyBoy via GBEnv (gb-game-verifier)",
+    "boot_sequence": "PentaDragonEnv.BOOT_SEQUENCE: WAIT 80f, DOWN, A, A, START, A",
+    "sync_on": "FFC1==1 (gameplay active flag)",
+    "boot_frames": 200,
+    "note": "Step 0 = first frame after boot sequence completes and FFC1==1 sync. All steps are gameplay frames."
+  },
+  "initial_state_at_step_0": {
+    "FFBD": {
+      "value": 5,
+      "meaning": "Room/section counter = 5 (room 5)"
+    },
+    "FFC1": {
+      "value": 1,
+      "meaning": "Gameplay active = 1 (in gameplay)"
+    },
+    "FF43": {
+      "value": 0,
+      "meaning": "SCX = 0 (scroll X not yet set)"
+    },
+    "DCBB": {
+      "value": 255,
+      "meaning": "Countdown timer = 255 (full/initial)"
+    },
+    "FFDD": {
+      "value": 0,
+      "meaning": "Lives = 0 (not yet initialized)"
+    },
+    "FFE5": {
+      "value": 0,
+      "meaning": "Room2 = 0 (not yet initialized)"
+    },
+    "FFBE": {
+      "value": 0,
+      "meaning": "Sara form = 0 (Witch)"
+    },
+    "FFBF": {
+      "value": 0,
+      "meaning": "Boss flag = 0 (no boss)"
+    },
+    "FFC0": {
+      "value": 0,
+      "meaning": "Powerup state = 0 (none)"
+    },
+    "FFD0": {
+      "value": 0,
+      "meaning": "Stage flag = 0 (normal)"
+    },
+    "DCDD": {
+      "value": 0,
+      "meaning": "HP main = 0 (never observed non-zero in 2000 steps)"
+    },
+    "FFCD": {
+      "value": 0,
+      "meaning": "Not yet initialized"
+    }
+  },
+  "first_nonzero_timing": {
+    "FFBD": {
+      "first_nonzero_step": 0,
+      "first_value": 5,
+      "note": "Already 5 at step 0 (set during boot sequence menu navigation)"
+    },
+    "FFC1": {
+      "first_nonzero_step": 0,
+      "first_value": 1,
+      "note": "Already 1 at step 0 (sync_on waits for this)"
+    },
+    "DCBB": {
+      "first_nonzero_step": 0,
+      "first_value": 255,
+      "note": "Starts at 255 (full timer). First countdown tick at step 319 (255->254)"
+    },
+    "FF43_SCX": {
+      "first_nonzero_step": 46,
+      "first_value": 12,
+      "note": "SCX jumps from 0 to 12 at step 46 (room 5 scroll position). Stable at 12 after that."
+    },
+    "FFDD": {
+      "first_nonzero_step": 46,
+      "first_value": 3,
+      "note": "Initially 3, then fluctuates wildly (3,36,15,23,34,...). Likely NOT a simple lives counter - appears to be sprite/DMA related. Most common resting value is 23."
+    },
+    "FFE5": {
+      "first_nonzero_step": 46,
+      "first_value": 5,
+      "note": "Set to 5 at step 46, stable thereafter. Matches FFBD=5 (room 5)."
+    },
+    "FFCD": {
+      "first_nonzero_step": 46,
+      "first_value": 1,
+      "note": "Set to 1 at step 46 simultaneously with FFE5, FFDD, and FF43."
+    },
+    "FFBE": {
+      "first_nonzero_step": "never",
+      "first_value": "N/A",
+      "note": "Sara form stays 0 (Witch) throughout all observed steps"
+    },
+    "FFBF": {
+      "first_nonzero_step": "never",
+      "first_value": "N/A",
+      "note": "Boss flag stays 0 (no boss) throughout all observed steps"
+    },
+    "FFC0": {
+      "first_nonzero_step": "never",
+      "first_value": "N/A",
+      "note": "Powerup state stays 0 (none) throughout all observed steps"
+    },
+    "FFD0": {
+      "first_nonzero_step": "never",
+      "first_value": "N/A",
+      "note": "Stage flag stays 0 (normal) throughout all observed steps"
+    },
+    "DCDD": {
+      "first_nonzero_step": "never (in 2000 steps)",
+      "first_value": "N/A",
+      "note": "HP main never observed non-zero. May require taking damage to initialize, or uses a different mechanism."
+    }
+  },
+  "critical_transition": {
+    "step": 46,
+    "description": "Bulk initialization event at step 46 post-boot",
+    "addresses_initialized": [
+      "FF43 (SCX->12)",
+      "FFDD (->3)",
+      "FFE5 (->5)",
+      "FFCD (->1)"
+    ],
+    "note": "Steps 1-45: all addresses except FFBD/FFC1/DCBB remain at 0. At step 46, the game engine completes level loading and sets scroll position, room2, and other state simultaneously. This is approximately 46 frames (~0.77 seconds) after FFC1=1 gameplay flag is set."
+  },
+  "dcbb_countdown": {
+    "initial_value": 255,
+    "first_decrement_step": 319,
+    "first_decrement_value": 254,
+    "tick_interval_approx": "~200 steps between first ticks, then accelerates",
+    "sample_changes": [
+      {
+        "step": 319,
+        "from": 255,
+        "to": 254
+      },
+      {
+        "step": 521,
+        "from": 254,
+        "to": 253
+      },
+      {
+        "step": 553,
+        "from": 253,
+        "to": 252
+      },
+      {
+        "step": 563,
+        "from": 252,
+        "to": 251
+      },
+      {
+        "step": 576,
+        "from": 251,
+        "to": 246
+      },
+      {
+        "step": 1160,
+        "from": 246,
+        "to": 242
+      },
+      {
+        "step": 1162,
+        "from": 242,
+        "to": 238
+      }
+    ],
+    "note": "DCBB decrements irregularly. First tick at step 319 (~5.3 sec), occasional multi-decrements (e.g., 251->246 at step 576)."
+  },
+  "ffdd_behavior": {
+    "first_set": "Step 46 (value=3)",
+    "settling_value": 23,
+    "is_volatile": true,
+    "note": "FFDD fluctuates constantly between many values (3,36,15,23,34,10,7,33,...). Most common resting value is 23 but it changes nearly every frame during active periods. This is NOT a simple lives counter - likely used as sprite count, DMA state, or similar frame-varying purpose."
+  },
+  "raw_startup_without_boot": {
+    "note": "With boot_frames=0 and no boot sequence, all addresses start at 0. SCX reaches 8 at step 20 (title screen scroll). All game state addresses remain 0 until menu navigation occurs.",
+    "title_screen_scx": 8,
+    "title_screen_scx_step": 20
+  }
+}
