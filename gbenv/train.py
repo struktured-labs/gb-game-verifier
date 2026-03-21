@@ -24,6 +24,46 @@ import gymnasium as gym
 import numpy as np
 
 
+class MemoryObsWrapper(gym.ObservationWrapper):
+    """Replace pixel observations with compact memory-state vector.
+
+    Reads game state + OAM sprite positions as a flat float32 vector.
+    Much more informative than 23k pixels for MlpPolicy.
+    Observation: [SCX, SCY, room, form, boss, powerup, stage, hp, lives,
+                  sprite0_y, sprite0_x, ..., sprite9_y, sprite9_x] = 29 values
+    """
+    MEM_ADDRS = [
+        0xFF43,  # SCX
+        0xFF42,  # SCY
+        0xFFBD,  # room
+        0xFFBE,  # form
+        0xFFBF,  # boss
+        0xFFC0,  # powerup
+        0xFFD0,  # stage
+        0xDCDD,  # hp
+        0xFFDD,  # lives
+    ]
+    # First 10 OAM sprites (Y, X positions)
+    OAM_SLOTS = 10
+
+    def __init__(self, env):
+        super().__init__(env)
+        n = len(self.MEM_ADDRS) + self.OAM_SLOTS * 2
+        self.observation_space = gym.spaces.Box(
+            0.0, 1.0, (n,), dtype=np.float32
+        )
+
+    def observation(self, obs):
+        vals = []
+        for addr in self.MEM_ADDRS:
+            vals.append(self.env.unwrapped._read_memory(addr) / 255.0)
+        for slot in range(self.OAM_SLOTS):
+            base = 0xFE00 + slot * 4
+            vals.append(self.env.unwrapped._read_memory(base) / 255.0)      # Y
+            vals.append(self.env.unwrapped._read_memory(base + 1) / 255.0)  # X
+        return np.array(vals, dtype=np.float32)
+
+
 class DownsampleAndChannelWrapper(gym.ObservationWrapper):
     """Downsample GB screen and add channel dim for CnnPolicy compatibility.
 
