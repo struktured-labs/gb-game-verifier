@@ -97,9 +97,18 @@ def replay_actions(rom_path, actions, reward_addresses, state_addresses,
     return trajectory
 
 
-def compare_trajectories(og_traj, rm_traj, exclude=None, verbose=True):
-    """Compare two trajectories, return detailed divergence report."""
+def compare_trajectories(og_traj, rm_traj, exclude=None, verbose=True,
+                         skip_initial=0):
+    """Compare two trajectories, return detailed divergence report.
+
+    Args:
+        skip_initial: Skip first N steps (useful to exclude boot-timing
+            differences that don't reflect actual game logic divergences).
+    """
     exclude = exclude or {"step"}
+    if skip_initial > 0:
+        og_traj = og_traj[skip_initial:]
+        rm_traj = rm_traj[skip_initial:]
     total = min(len(og_traj), len(rm_traj))
 
     if total == 0:

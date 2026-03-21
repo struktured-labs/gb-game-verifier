@@ -68,6 +68,7 @@ class GBEnv(gym.Env):
         render_mode: str = "rgb_array",
         boot_frames: int = 120,
         boot_sequence: Optional[list] = None,
+        sync_on: Optional[tuple] = None,
     ):
         """
         Args:
@@ -82,6 +83,9 @@ class GBEnv(gym.Env):
             boot_sequence: List of (button_name, hold_frames, wait_frames)
                 to execute after boot. Button names: START, A, B, UP, DOWN,
                 LEFT, RIGHT, SELECT. Use this to navigate title screens.
+            sync_on: (addr, value, max_frames) — after boot sequence, wait
+                until memory[addr]==value before starting. Ensures both OG and
+                remake start from same game state regardless of boot timing.
         """
         super().__init__()
 
@@ -94,6 +98,7 @@ class GBEnv(gym.Env):
         self.render_mode = render_mode
         self.boot_frames = boot_frames
         self.boot_sequence = boot_sequence or []
+        self.sync_on = sync_on
 
         # Action space: 13 discrete actions (NOOP + 8 buttons + 4 combos)
         self.action_space = spaces.Discrete(len(GB_ACTIONS))
@@ -214,6 +219,14 @@ class GBEnv(gym.Env):
                 for _ in range(wait):
                     self._pyboy.tick(1, False)
 
+        # Phase 3: Sync — wait until specific memory condition is met
+        if self.sync_on:
+            sync_addr, sync_val, sync_max = self.sync_on
+            for _ in range(sync_max):
+                if self._read_memory(sync_addr) == sync_val:
+                    break
+                self._pyboy.tick(1, False)
+
         obs = self._get_screen()
         info = self._get_info()
         return obs, info
@@ -299,6 +312,11 @@ class PentaDragonEnv(GBEnv):
         ("A", 5, 400),        # Final — then wait for stage intro (~390 frames)
     ]
 
+    # Sync point: wait for FFC1=1 (gameplay active) then wait for room=5
+    # This ensures both OG and remake start from identical game state
+    # regardless of how long their boot/stage-intro takes.
+    SYNC_ON = (0xFFC1, 1, 1000)  # Wait up to 1000 frames for gameplay
+
     def __init__(self, rom_path: str, **kwargs):
         super().__init__(
             rom_path,
@@ -306,6 +324,7 @@ class PentaDragonEnv(GBEnv):
                 "room": 0xFFBD,
                 "boss": 0xFFBF,
                 "gameplay": 0xFFC1,
+                "hp": 0xDCDD,
             },
             state_addresses={
                 "SCX": 0xFF43,
@@ -317,6 +336,7 @@ class PentaDragonEnv(GBEnv):
             frames_per_step=4,
             boot_frames=200,
             boot_sequence=kwargs.pop("boot_sequence", None) or self.BOOT_SEQUENCE,
+            sync_on=kwargs.pop("sync_on", None) or self.SYNC_ON,
             **kwargs,
         )
 
