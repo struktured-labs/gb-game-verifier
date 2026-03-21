@@ -1,0 +1,270 @@
+{
+  "game": "Penta Dragon",
+  "version": "v2 - enhanced from Stage 1+2 analysis",
+  "reward_addresses": {
+    "room": 65469,
+    "boss_flag": 65471,
+    "gameplay_active": 65473,
+    "lives": 65501,
+    "hp_main": 56541,
+    "powerup": 65472,
+    "form_change": 65470
+  },
+  "state_addresses": {
+    "scroll_x": 65347,
+    "scroll_y": 65346,
+    "stage_flag": 65488,
+    "gameplay_mode": 65485,
+    "countdown_timer": 56507,
+    "hp_sub": 56540,
+    "section_cycle": 56504,
+    "section_descriptor": 56324,
+    "dc9c_counter": 56476,
+    "dcac_counter": 56492,
+    "frame_counter_volatile": 65492
+  },
+  "reward_weights": {
+    "room": 10.0,
+    "boss_flag": 15.0,
+    "gameplay_active": 0.0,
+    "lives": -5.0,
+    "hp_main": -3.0,
+    "powerup": 2.0,
+    "form_change": 0.5
+  },
+  "address_details": {
+    "room": {
+      "hex": "0xFFBD",
+      "dec": 65469,
+      "role": "primary_reward",
+      "stage1_write_count": 5,
+      "stage1_read_count": 4,
+      "stage1_total_refs": 9,
+      "stage1_confidence": 1.0,
+      "stage2_classification": "timer",
+      "stage2_changes": 1,
+      "stage2_unique_values": 2,
+      "stage2_range": [3, 5],
+      "description": "Room/section counter (0=title, 1-7=rooms). Low write count but high semantic importance — room transitions are major progress events.",
+      "reward_logic": "delta > 0 means forward progress (+10), delta < 0 means backtracking (-2)"
+    },
+    "boss_flag": {
+      "hex": "0xFFBF",
+      "dec": 65471,
+      "role": "primary_reward",
+      "stage1_write_count": 12,
+      "stage1_read_count": 29,
+      "stage1_total_refs": 41,
+      "stage1_confidence": 1.0,
+      "stage2_classification": "static_during_scan",
+      "stage2_changes": 0,
+      "stage2_unique_values": 1,
+      "description": "Boss flag (0=normal, 1-8=boss). 12 writers across banks 0,1,7,8,9 — heavily referenced (29 reads). Boss encounters are critical game events. Values 1-8 correspond to: Gargoyle, Spider, Crimson, Ice, Void, Poison, Knight, Angela.",
+      "reward_logic": "transition 0->N means boss encounter (+5), transition N->0 means boss defeated (+15)"
+    },
+    "gameplay_active": {
+      "hex": "0xFFC1",
+      "dec": 65473,
+      "role": "primary_reward",
+      "stage1_write_count": 9,
+      "stage1_read_count": 13,
+      "stage1_total_refs": 22,
+      "stage1_confidence": 1.0,
+      "stage2_classification": "static_during_gameplay",
+      "stage2_value": 1,
+      "description": "Gameplay active flag (0=menu, 1=gameplay). Used as gate — reward signals only valid when FFC1=1. Weight 0.0 because it gates other rewards, not a reward itself.",
+      "reward_logic": "gate: only apply other rewards when value == 1"
+    },
+    "lives": {
+      "hex": "0xFFDD",
+      "dec": 65501,
+      "role": "primary_reward",
+      "stage1_write_count": 4,
+      "stage1_read_count": 2,
+      "stage1_total_refs": 6,
+      "stage1_confidence": 1.0,
+      "stage2_classification": "volatile",
+      "stage2_changes": 29,
+      "stage2_unique_values": 10,
+      "stage2_range": [3, 23],
+      "description": "Lives counter. Despite low static refs (6), runtime shows high volatility (29 changes, 10 unique values). Baseline 3 lives, observed up to 23 — likely includes earned lives. Negative reward on decrease.",
+      "reward_logic": "delta < 0 means death (-5 per life lost)"
+    },
+    "hp_main": {
+      "hex": "0xDCDD",
+      "dec": 56541,
+      "role": "primary_reward",
+      "stage1_write_count": 3,
+      "stage1_read_count": 4,
+      "stage1_total_refs": 7,
+      "stage1_confidence": 1.0,
+      "stage1_health_patterns": 5,
+      "stage2_classification": "static_during_scan",
+      "description": "Main HP byte. Stage 1 found 5 health-related code patterns involving this address (increment, decrement, compare with DCDC sub-HP). Sub-HP (DCDC) overflows into this. Decrease = damage taken.",
+      "reward_logic": "delta < 0 means HP loss (-3 per unit), delta > 0 means HP gain (+1 per unit)"
+    },
+    "powerup": {
+      "hex": "0xFFC0",
+      "dec": 65472,
+      "role": "secondary_reward",
+      "stage1_write_count": 45,
+      "stage1_read_count": 24,
+      "stage1_total_refs": 69,
+      "stage1_confidence": 1.0,
+      "stage2_classification": "static_during_scan",
+      "description": "Powerup state (0=none, 1=spiral, 2=shield, 3=turbo). HIGHEST write count of any known address (45 writers across 12 banks). Heavily managed — many code paths set/clear powerups. Acquiring a powerup is a moderate positive signal.",
+      "reward_logic": "transition 0->N means powerup acquired (+2), transition N->0 means powerup lost (-0.5)"
+    },
+    "form_change": {
+      "hex": "0xFFBE",
+      "dec": 65470,
+      "role": "secondary_reward",
+      "stage1_write_count": 5,
+      "stage1_read_count": 11,
+      "stage1_total_refs": 16,
+      "stage1_confidence": 1.0,
+      "stage2_classification": "static_during_scan",
+      "description": "Sara form (0=Witch, 1=Dragon). Read-heavy (11 reads vs 5 writes) — many game systems check current form. Form changes are strategic decisions, small positive signal to encourage exploration.",
+      "reward_logic": "any transition means form change (+0.5)"
+    },
+    "scroll_x": {
+      "hex": "0xFF43",
+      "dec": 65347,
+      "role": "state_tracking",
+      "description": "SCX hardware register. Tracks horizontal scroll position — proxy for spatial progress through dungeon."
+    },
+    "scroll_y": {
+      "hex": "0xFF42",
+      "dec": 65346,
+      "role": "state_tracking",
+      "description": "SCY hardware register. Tracks vertical scroll position."
+    },
+    "stage_flag": {
+      "hex": "0xFFD0",
+      "dec": 65488,
+      "role": "state_tracking",
+      "stage1_write_count": 22,
+      "stage1_read_count": 27,
+      "stage1_total_refs": 49,
+      "stage1_confidence": 1.0,
+      "description": "Stage flag (0=normal, 1=bonus). High ref count (49) — bonus stages are distinct game modes. Useful for conditioning reward interpretation."
+    },
+    "gameplay_mode": {
+      "hex": "0xFFCD",
+      "dec": 65485,
+      "role": "state_tracking",
+      "stage1_write_count": 7,
+      "stage1_read_count": 9,
+      "stage1_total_refs": 16,
+      "stage1_confidence": 0.6,
+      "stage2_classification": "volatile",
+      "stage2_changes": 57,
+      "stage2_unique_values": 4,
+      "stage2_range": [0, 3],
+      "description": "Gameplay mode/phase (values 0-3). Classified as counter_candidate by Stage 1 (INC pattern). Runtime shows 4 unique values cycling rapidly (57 changes in 600 frames). Likely represents game sub-state (e.g., 0=idle, 1=scrolling, 2=combat, 3=transition). Useful for understanding agent context but NOT a reward signal."
+    },
+    "countdown_timer": {
+      "hex": "0xDCBB",
+      "dec": 56507,
+      "role": "state_tracking",
+      "stage1_write_count": 9,
+      "stage1_read_count": 7,
+      "stage1_has_counter_pattern": true,
+      "stage2_static_value": 255,
+      "description": "Countdown timer. Static at 255 during scanned gameplay (not in timed section). When active, counts down — could be negative reward for running out."
+    },
+    "hp_sub": {
+      "hex": "0xDCDC",
+      "dec": 56540,
+      "role": "state_tracking",
+      "stage1_write_count": 4,
+      "stage1_read_count": 3,
+      "stage1_has_counter_pattern": true,
+      "description": "Sub-HP byte. Works with DCDD — overflow/underflow cascades to main HP. Track for granular health monitoring."
+    },
+    "section_cycle": {
+      "hex": "0xDCB8",
+      "dec": 56504,
+      "role": "state_tracking",
+      "stage1_write_count": 5,
+      "stage1_read_count": 4,
+      "stage1_has_counter_pattern": true,
+      "description": "Section cycle counter (0-5). 6 sections per room. Combined with room counter gives fine-grained progress tracking."
+    },
+    "section_descriptor": {
+      "hex": "0xDC04",
+      "dec": 56324,
+      "role": "state_tracking",
+      "stage1_write_count": 0,
+      "stage1_read_count": 1,
+      "description": "Section descriptor from level data table (bank 13). Read-only from game code — loaded from ROM. Used to derive boss_number = (DC04 - 0x30) / 5 + 1."
+    },
+    "dc9c_counter": {
+      "hex": "0xDC9C",
+      "dec": 56476,
+      "role": "state_tracking_discovery",
+      "stage1_presence": false,
+      "stage2_classification": "timer",
+      "stage2_changes": 47,
+      "stage2_unique_values": 21,
+      "stage2_range": [0, 20],
+      "description": "NEW DISCOVERY from Stage 2. Timer-classified, 47 changes, range 0-20, 21 unique values. Not found in Stage 1 static analysis (no direct LDH references — likely accessed via HL pointer). High change rate with bounded range (0-20) suggests an entity timer, spawn counter, or animation frame. Needs further investigation to confirm if score-related."
+    },
+    "dcac_counter": {
+      "hex": "0xDCAC",
+      "dec": 56492,
+      "role": "state_tracking_discovery",
+      "stage1_presence": false,
+      "stage2_classification": "timer",
+      "stage2_changes": 46,
+      "stage2_unique_values": 21,
+      "stage2_range": [0, 20],
+      "description": "NEW DISCOVERY from Stage 2. Nearly identical profile to DC9C (46 changes, range 0-20, 21 unique values). Same bounded range suggests these are parallel counters — possibly per-entity timers in an entity table (DC9C and DCAC are 16 bytes apart, consistent with entity struct stride). Track for now; promote to reward if confirmed as kill/score counter."
+    },
+    "frame_counter_volatile": {
+      "hex": "0xFFD4",
+      "dec": 65492,
+      "role": "excluded",
+      "stage1_write_count": 4,
+      "stage1_read_count": 3,
+      "stage1_confidence": 0.1,
+      "stage2_classification": "volatile",
+      "stage2_changes": 60,
+      "stage2_unique_values": 60,
+      "stage2_range": [0, 120],
+      "description": "EXCLUDED from rewards. Frame counter — changes every sample (60/60), 60 unique values, range 0-120. Stage 1 gave it confidence 0.1. Too volatile for reward signal; would dominate reward noise. Only tracked for timing/profiling purposes."
+    }
+  },
+  "confidence_model": {
+    "description": "Confidence scores derived from Stage 1 cross-reference density and Stage 2 runtime behavior validation",
+    "scoring_factors": {
+      "stage1_write_count": "More writers = more code paths affect this address = higher game importance",
+      "stage1_read_count": "More readers = more systems depend on this value = higher structural importance",
+      "stage2_stability": "Addresses that change meaningfully (not every frame) during gameplay = better reward signals",
+      "known_semantics": "Manually verified addresses from reverse engineering get confidence 1.0"
+    },
+    "rankings_by_importance": [
+      {"address": "0xFFC0", "name": "powerup", "total_refs": 69, "note": "Most-referenced game state address"},
+      {"address": "0xFFD0", "name": "stage_flag", "total_refs": 49, "note": "Second-most referenced"},
+      {"address": "0xFF80", "name": "unknown_ff80", "total_refs": 47, "note": "High refs but unknown purpose — possible DMA or system state"},
+      {"address": "0xFFBF", "name": "boss_flag", "total_refs": 41, "note": "Critical game event with heavy read usage (29 reads)"},
+      {"address": "0xFFC1", "name": "gameplay_active", "total_refs": 22, "note": "Gate flag — many systems check if gameplay is active"},
+      {"address": "0xFFBE", "name": "sara_form", "total_refs": 16, "note": "Player form — read-heavy (11 reads)"},
+      {"address": "0xFFCD", "name": "gameplay_mode", "total_refs": 16, "note": "Newly identified — 4-value mode cycling"},
+      {"address": "0xFFBD", "name": "room", "total_refs": 9, "note": "Low refs but highest semantic value for progress"},
+      {"address": "0xFFDD", "name": "lives", "total_refs": 6, "note": "Low refs but critical for survival reward"}
+    ]
+  },
+  "gating_rules": {
+    "description": "Rules for when reward signals are valid",
+    "rules": [
+      "Only apply rewards when FFC1 (gameplay_active) == 1",
+      "Boss defeat reward (FFBF N->0) only valid when previous FFBF was 1-8",
+      "Room progress reward (FFBD delta>0) only valid when FFD0 (stage_flag) == 0 (normal stage)",
+      "HP loss penalty only applied when FFBF == 0 (not during boss — bosses have different HP semantics)",
+      "Powerup rewards only when FFC1 == 1 (ignore menu state changes)",
+      "Frame counter (FFD4) excluded from all reward calculations"
+    ]
+  },
+  "notes": "Enhanced config combining Stage 1 static analysis (LDH pattern cross-references across 16 ROM banks) with Stage 2 runtime analysis (600-frame gameplay scan at 10-frame intervals). Key findings: (1) FFC0/powerup has the highest cross-reference density (69 total refs, 45 writers across 12 banks) making it the most actively managed game state variable. (2) FFBF/boss_flag is read-heavy (29 reads vs 12 writes) — many systems check boss state. (3) DC9C and DCAC are new discoveries from runtime with identical bounded profiles (range 0-20, ~46 changes) suggesting per-entity timer/counter arrays accessed via HL pointer (invisible to LDH pattern analysis). (4) FFD4 confirmed as frame counter (60/60 changes, all unique) — excluded from rewards. (5) FFCD identified as 4-value gameplay mode cycling rapidly during play. (6) DCDC/DCDD health system confirmed by 5 health-specific code patterns in Stage 1 with increment/decrement/compare sequences."
+}
