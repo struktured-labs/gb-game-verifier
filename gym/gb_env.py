@@ -66,6 +66,8 @@ class GBEnv(gym.Env):
         max_steps: int = 10000,
         cgb: bool = False,
         render_mode: str = "rgb_array",
+        boot_frames: int = 120,
+        boot_sequence: Optional[list] = None,
     ):
         """
         Args:
@@ -76,6 +78,10 @@ class GBEnv(gym.Env):
             max_steps: Max steps before truncation
             cgb: Force CGB mode
             render_mode: "rgb_array" or "human"
+            boot_frames: Frames to skip for boot ROM
+            boot_sequence: List of (button_name, hold_frames, wait_frames)
+                to execute after boot. Button names: START, A, B, UP, DOWN,
+                LEFT, RIGHT, SELECT. Use this to navigate title screens.
         """
         super().__init__()
 
@@ -86,6 +92,8 @@ class GBEnv(gym.Env):
         self.max_steps = max_steps
         self.cgb = cgb
         self.render_mode = render_mode
+        self.boot_frames = boot_frames
+        self.boot_sequence = boot_sequence or []
 
         # Action space: 13 discrete actions (NOOP + 8 buttons + 4 combos)
         self.action_space = spaces.Discrete(len(GB_ACTIONS))
@@ -178,9 +186,33 @@ class GBEnv(gym.Env):
         self._step_count = 0
         self._prev_rewards = {}
 
-        # Run frames to get past boot + title screen init
-        for _ in range(120):
+        # Phase 1: Boot ROM / initial load
+        for _ in range(self.boot_frames):
             self._pyboy.tick(1, False)
+
+        # Phase 2: Execute boot sequence (navigate menus, start game)
+        if self.boot_sequence:
+            from pyboy.utils import WindowEvent
+            BUTTON_MAP = {
+                "A": (WindowEvent.PRESS_BUTTON_A, WindowEvent.RELEASE_BUTTON_A),
+                "B": (WindowEvent.PRESS_BUTTON_B, WindowEvent.RELEASE_BUTTON_B),
+                "START": (WindowEvent.PRESS_BUTTON_START, WindowEvent.RELEASE_BUTTON_START),
+                "SELECT": (WindowEvent.PRESS_BUTTON_SELECT, WindowEvent.RELEASE_BUTTON_SELECT),
+                "UP": (WindowEvent.PRESS_ARROW_UP, WindowEvent.RELEASE_ARROW_UP),
+                "DOWN": (WindowEvent.PRESS_ARROW_DOWN, WindowEvent.RELEASE_ARROW_DOWN),
+                "LEFT": (WindowEvent.PRESS_ARROW_LEFT, WindowEvent.RELEASE_ARROW_LEFT),
+                "RIGHT": (WindowEvent.PRESS_ARROW_RIGHT, WindowEvent.RELEASE_ARROW_RIGHT),
+                "WAIT": (None, None),
+            }
+            for button, hold, wait in self.boot_sequence:
+                press, release = BUTTON_MAP.get(button.upper(), (None, None))
+                if press is not None:
+                    self._pyboy.send_input(press)
+                    for _ in range(hold):
+                        self._pyboy.tick(1, False)
+                    self._pyboy.send_input(release)
+                for _ in range(wait):
+                    self._pyboy.tick(1, False)
 
         obs = self._get_screen()
         info = self._get_info()
@@ -243,7 +275,29 @@ class GBEnv(gym.Env):
 
 
 class PentaDragonEnv(GBEnv):
-    """Pre-configured environment for Penta Dragon."""
+    """Pre-configured environment for Penta Dragon.
+
+    The OG Penta Dragon has a long boot sequence:
+    - ~120 frames for boot ROM
+    - Title screen with "OPENING START" / "GAME START"
+    - Press DOWN to select "GAME START", then START
+    - ~390 frames stage intro (shows stage name)
+    - Then gameplay begins
+
+    auto_start handles this automatically.
+    """
+
+    # Boot sequence: navigate OG title screen to "GAME START"
+    # OG Penta Dragon: DOWN to select GAME START, A to confirm, wait ~400 for stage intro
+    BOOT_SEQUENCE = [
+        # (button, hold_frames, wait_after_frames)
+        ("WAIT", 0, 80),      # Wait for title screen to fully render
+        ("DOWN", 5, 15),      # Move cursor to "GAME START"
+        ("A", 5, 50),         # Confirm selection
+        ("A", 5, 50),         # Dismiss any prompt
+        ("START", 5, 50),     # Extra dismiss attempt
+        ("A", 5, 400),        # Final — then wait for stage intro (~390 frames)
+    ]
 
     def __init__(self, rom_path: str, **kwargs):
         super().__init__(
@@ -261,6 +315,8 @@ class PentaDragonEnv(GBEnv):
                 "stage": 0xFFD0,
             },
             frames_per_step=4,
+            boot_frames=200,
+            boot_sequence=kwargs.pop("boot_sequence", None) or self.BOOT_SEQUENCE,
             **kwargs,
         )
 

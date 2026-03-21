@@ -1,0 +1,7 @@
+__pycache__/
+*.egg-info/
+tmp/
+checkpoints/
+logs/
+pipeline_output/
+.venv/

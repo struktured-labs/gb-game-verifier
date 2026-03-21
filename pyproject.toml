@@ -1,0 +1,34 @@
+[project]
+name = "gb-game-verifier"
+version = "0.5.0"
+description = "General-purpose Game Boy game verification — dual-ROM comparison, RL exploration, RE-assisted reward discovery"
+requires-python = ">=3.11"
+dependencies = [
+    "gymnasium>=1.0",
+    "numpy>=2.0",
+    "pillow>=10.0",
+    "pyyaml>=6.0",
+    "pyboy>=2.0",
+]
+
+[project.optional-dependencies]
+rl = [
+    "torch>=2.0",
+    "stable-baselines3>=2.0",
+    "tensorboard>=2.0",
+]
+re = [
+    "mcp>=1.0",
+    "requests>=2.0",
+]
+all = [
+    "gb-game-verifier[rl,re]",
+]
+
+[tool.setuptools]
+packages = ["gym"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
