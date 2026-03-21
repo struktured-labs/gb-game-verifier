@@ -242,8 +242,8 @@ class GBEnv(gym.Env):
                 if self._read_memory(sync_addr) == sync_val:
                     break
                 self._pyboy.tick(1, False)
-            # Post-sync stabilization: OG takes ~200 frames after FFC1=1
-            # to initialize SCX, FFDD, FFE5, FFCD (verified step 46 = 184 frames)
+            # Post-sync stabilization: wait for OG to initialize addresses
+            # (SCX, FFDD, FFE5 all set at ~184 frames post-FFC1=1)
             for _ in range(200):
                 self._pyboy.tick(1, False)
 
