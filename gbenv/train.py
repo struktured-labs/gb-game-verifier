@@ -332,8 +332,15 @@ def evaluate(model, rom_path, reward_addresses, state_addresses, n_episodes=5,
 
 def record_actions(model, rom_path, reward_addresses, state_addresses,
                    n_steps=1000, cgb=False, frames_per_step=4,
-                   boot_frames=200, boot_sequence=None, use_cnn=False):
-    """Record agent actions for trajectory comparison."""
+                   boot_frames=200, boot_sequence=None, use_cnn=False,
+                   deterministic=False):
+    """Record agent actions for trajectory comparison.
+
+    Args:
+        deterministic: If True, always pick the greedy action.
+            If False (default), use model's built-in exploration
+            (epsilon-greedy for DQN, stochastic for PPO).
+    """
     env_fn = make_env(rom_path, reward_addresses, state_addresses,
                       frames_per_step=frames_per_step, cgb=cgb,
                       max_steps=n_steps + 100, boot_frames=boot_frames,
@@ -344,7 +351,7 @@ def record_actions(model, rom_path, reward_addresses, state_addresses,
     actions = []
 
     for _ in range(n_steps):
-        action, _ = model.predict(obs, deterministic=True)
+        action, _ = model.predict(obs, deterministic=deterministic)
         obs, _, done, truncated, _ = env.step(int(action))
         actions.append(int(action))
         if done or truncated:
@@ -391,9 +398,11 @@ def main():
         state_addrs = PENTA_DRAGON_CONFIG.get_state_addresses()
         boot_seq = PentaDragonEnv.BOOT_SEQUENCE
 
+    use_cnn = args.use_cnn
+
     # Train
     train_fn = train_ppo if args.algo == "ppo" else train_dqn
-    model = train_fn(
+    train_kwargs = dict(
         rom_path=args.rom,
         reward_addresses=reward_addrs,
         state_addresses=state_addrs,
@@ -407,8 +416,9 @@ def main():
         boot_frames=200,
         boot_sequence=boot_seq,
     )
-
-    use_cnn = args.use_cnn
+    if args.algo == "dqn":
+        train_kwargs["use_cnn"] = use_cnn
+    model = train_fn(**train_kwargs)
 
     # Evaluate
     print(f"\n{'='*50}")

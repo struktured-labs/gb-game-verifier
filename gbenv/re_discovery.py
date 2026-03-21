@@ -281,7 +281,8 @@ PENTA_DRAGON_CONFIG = RewardConfig(
         DiscoveredAddress(0xFFC0, "powerup", "state", "powerup", 1.0, "verified"),
         DiscoveredAddress(0xFFC1, "gameplay", "reward", "gameplay_active", 1.0, "verified"),
         DiscoveredAddress(0xFFD0, "stage", "state", "stage_flag", 1.0, "verified"),
-        DiscoveredAddress(0xFFDD, "lives", "reward", "lives", 0.9, "scanner"),
+        DiscoveredAddress(0xFFDD, "lives", "state", "lives_unverified", 0.3, "scanner",
+                         notes="Bounces wildly (0-35), likely NOT lives. Disabled as reward."),
         DiscoveredAddress(0xFFE5, "room2", "state", "room_alt", 0.8, "scanner"),
         DiscoveredAddress(0xDCBB, "timer", "state", "countdown", 0.7, "scanner"),
     ]
