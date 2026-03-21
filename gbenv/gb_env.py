@@ -158,6 +158,10 @@ class GBEnv(gym.Env):
                 # Reward for advancing to new rooms
                 if current != prev:
                     reward += 1.0
+            elif name in ("boss", "boss_flag"):
+                # Big reward for triggering boss
+                if current != prev and current > 0:
+                    reward += 5.0
             else:
                 # Generic: reward for any change
                 if current != prev:
@@ -165,7 +169,19 @@ class GBEnv(gym.Env):
 
             self._prev_rewards[name] = current
 
-        # Small negative reward per step (encourages efficiency)
+        # Dense exploration reward: reward screen changes (novel frames)
+        # SCX/SCY changes indicate the player is making the game progress
+        for scroll_name in ("SCX", "SCY"):
+            addr = self.state_addresses.get(scroll_name)
+            if addr:
+                current = self._read_memory(addr)
+                prev_key = f"_scroll_{scroll_name}"
+                prev = self._prev_rewards.get(prev_key, current)
+                if current != prev:
+                    reward += 0.01  # Small reward for any scroll change
+                self._prev_rewards[prev_key] = current
+
+        # Action diversity bonus: penalize repeating the same action
         reward -= 0.001
 
         return reward
@@ -301,21 +317,21 @@ class PentaDragonEnv(GBEnv):
     """
 
     # Boot sequence: navigate OG title screen to "GAME START"
-    # OG Penta Dragon: DOWN to select GAME START, A to confirm, wait ~400 for stage intro
+    # Multiple presses needed for OG menu. Short waits — sync_on does the real wait.
     BOOT_SEQUENCE = [
         # (button, hold_frames, wait_after_frames)
         ("WAIT", 0, 80),      # Wait for title screen to fully render
         ("DOWN", 5, 15),      # Move cursor to "GAME START"
-        ("A", 5, 50),         # Confirm selection
-        ("A", 5, 50),         # Dismiss any prompt
-        ("START", 5, 50),     # Extra dismiss attempt
-        ("A", 5, 400),        # Final — then wait for stage intro (~390 frames)
+        ("A", 5, 30),         # Confirm selection
+        ("A", 5, 30),         # Dismiss any prompt
+        ("START", 5, 30),     # Extra dismiss attempt
+        ("A", 5, 10),         # Final — sync_on waits for gameplay
     ]
 
-    # Sync point: wait for FFC1=1 (gameplay active) then wait for room=5
-    # This ensures both OG and remake start from identical game state
-    # regardless of how long their boot/stage-intro takes.
-    SYNC_ON = (0xFFC1, 1, 1000)  # Wait up to 1000 frames for gameplay
+    # Sync: wait until FFC1=1 (gameplay active), up to 1000 frames.
+    # This replaces the old fixed 400-frame wait and ensures both OG
+    # and remake begin with section_timer near 0.
+    SYNC_ON = (0xFFC1, 1, 1000)
 
     def __init__(self, rom_path: str, **kwargs):
         super().__init__(

@@ -20,11 +20,53 @@ import json
 import sys
 from pathlib import Path
 
+import gymnasium as gym
 import numpy as np
 
 
+class DownsampleAndChannelWrapper(gym.ObservationWrapper):
+    """Downsample GB screen and add channel dim for CnnPolicy compatibility.
+
+    Converts (144,160) grayscale -> (1, 36, 40) uint8 via 4x4 avg pooling.
+    For CGB (144,160,3) -> (3, 36, 40) via channel-first + 4x4 pool.
+    """
+    def __init__(self, env, scale=4):
+        super().__init__(env)
+        old_space = env.observation_space
+        old_shape = old_space.shape
+        self.scale = scale
+        if len(old_shape) == 2:
+            # Grayscale DMG: (144,160) -> (1, 36, 40)
+            new_h = old_shape[0] // scale
+            new_w = old_shape[1] // scale
+            self.observation_space = gym.spaces.Box(
+                0, 255, (1, new_h, new_w), dtype=np.uint8
+            )
+        else:
+            # CGB: (144,160,3) -> (3, 36, 40)
+            new_h = old_shape[0] // scale
+            new_w = old_shape[1] // scale
+            self.observation_space = gym.spaces.Box(
+                0, 255, (old_shape[2], new_h, new_w), dtype=np.uint8
+            )
+
+    def observation(self, obs):
+        s = self.scale
+        if len(obs.shape) == 2:
+            # (144,160) -> avg pool -> (36,40) -> (1,36,40)
+            h, w = obs.shape
+            pooled = obs[:h//s*s, :w//s*s].reshape(h//s, s, w//s, s).mean(axis=(1,3)).astype(np.uint8)
+            return pooled[np.newaxis, :, :]
+        else:
+            # (144,160,3) -> (3,36,40)
+            h, w, c = obs.shape
+            pooled = obs[:h//s*s, :w//s*s].reshape(h//s, s, w//s, s, c).mean(axis=(1,3)).astype(np.uint8)
+            return pooled.transpose(2, 0, 1)
+
+
 def make_env(rom_path, reward_addresses, state_addresses, frames_per_step=4,
-             cgb=False, max_steps=4096, boot_frames=200, boot_sequence=None):
+             cgb=False, max_steps=4096, boot_frames=200, boot_sequence=None,
+             use_cnn=False):
     """Create a wrapped GB environment for SB3 training."""
     from gb_env import GBEnv
 
@@ -39,6 +81,8 @@ def make_env(rom_path, reward_addresses, state_addresses, frames_per_step=4,
             boot_frames=boot_frames,
             boot_sequence=boot_sequence,
         )
+        if use_cnn:
+            env = DownsampleAndChannelWrapper(env, scale=4)
         return env
 
     return _init
@@ -133,7 +177,12 @@ def train_dqn(rom_path, reward_addresses, state_addresses, total_timesteps=10000
               checkpoint_dir="checkpoints", resume_from=None, cgb=False,
               frames_per_step=4, max_steps=4096, log_dir="logs",
               boot_frames=200, boot_sequence=None):
-    """Train a DQN agent on the given ROM."""
+    """Train a DQN agent with CnnPolicy on downsampled GB screen.
+
+    Uses DownsampleAndChannelWrapper to convert (144,160) -> (1,36,40)
+    for proper CNN feature extraction. Epsilon-greedy with extended
+    exploration (30% of training, final eps=0.05).
+    """
     from stable_baselines3 import DQN
     from stable_baselines3.common.callbacks import CheckpointCallback
     from stable_baselines3.common.monitor import Monitor
@@ -146,7 +195,7 @@ def train_dqn(rom_path, reward_addresses, state_addresses, total_timesteps=10000
     env_fn = make_env(rom_path, reward_addresses, state_addresses,
                       frames_per_step=frames_per_step, cgb=cgb,
                       max_steps=max_steps, boot_frames=boot_frames,
-                      boot_sequence=boot_sequence)
+                      boot_sequence=boot_sequence, use_cnn=True)
     env = Monitor(env_fn())
 
     checkpoint_cb = CheckpointCallback(
@@ -159,7 +208,7 @@ def train_dqn(rom_path, reward_addresses, state_addresses, total_timesteps=10000
         model = DQN.load(resume_from, env=env)
     else:
         model = DQN(
-            "MlpPolicy",
+            "CnnPolicy",
             env,
             verbose=1,
             learning_rate=1e-4,
@@ -170,12 +219,12 @@ def train_dqn(rom_path, reward_addresses, state_addresses, total_timesteps=10000
             gamma=0.99,
             train_freq=4,
             target_update_interval=1000,
-            exploration_fraction=0.1,
-            exploration_final_eps=0.02,
+            exploration_fraction=0.3,
+            exploration_final_eps=0.05,
             tensorboard_log=str(log_path),
         )
 
-    print(f"Training DQN for {total_timesteps} timesteps on {rom_path}")
+    print(f"Training DQN (CnnPolicy) for {total_timesteps} timesteps on {rom_path}")
     model.learn(
         total_timesteps=total_timesteps,
         callback=checkpoint_cb,
@@ -192,12 +241,12 @@ def train_dqn(rom_path, reward_addresses, state_addresses, total_timesteps=10000
 
 def evaluate(model, rom_path, reward_addresses, state_addresses, n_episodes=5,
              cgb=False, frames_per_step=4, max_steps=4096,
-             boot_frames=200, boot_sequence=None):
+             boot_frames=200, boot_sequence=None, use_cnn=False):
     """Evaluate a trained model and return trajectory data."""
     env_fn = make_env(rom_path, reward_addresses, state_addresses,
                       frames_per_step=frames_per_step, cgb=cgb,
                       max_steps=max_steps, boot_frames=boot_frames,
-                      boot_sequence=boot_sequence)
+                      boot_sequence=boot_sequence, use_cnn=use_cnn)
     env = env_fn()
 
     all_rewards = []
@@ -239,12 +288,12 @@ def evaluate(model, rom_path, reward_addresses, state_addresses, n_episodes=5,
 
 def record_actions(model, rom_path, reward_addresses, state_addresses,
                    n_steps=1000, cgb=False, frames_per_step=4,
-                   boot_frames=200, boot_sequence=None):
+                   boot_frames=200, boot_sequence=None, use_cnn=False):
     """Record agent actions for trajectory comparison."""
     env_fn = make_env(rom_path, reward_addresses, state_addresses,
                       frames_per_step=frames_per_step, cgb=cgb,
                       max_steps=n_steps + 100, boot_frames=boot_frames,
-                      boot_sequence=boot_sequence)
+                      boot_sequence=boot_sequence, use_cnn=use_cnn)
     env = env_fn()
 
     obs, _ = env.reset()
@@ -313,6 +362,9 @@ def main():
         boot_sequence=boot_seq,
     )
 
+    # DQN uses CnnPolicy with downsampled observations
+    use_cnn = (args.algo == "dqn")
+
     # Evaluate
     print(f"\n{'='*50}")
     print("POST-TRAINING EVALUATION")
@@ -325,6 +377,7 @@ def main():
         max_steps=args.max_ep_steps,
         boot_frames=200,
         boot_sequence=boot_seq,
+        use_cnn=use_cnn,
     )
 
     # Record actions for trajectory comparison
@@ -337,6 +390,7 @@ def main():
             frames_per_step=args.frames_per_step,
             boot_frames=200,
             boot_sequence=boot_seq,
+            use_cnn=use_cnn,
         )
         np.save(args.record_actions, actions)
         print(f"Actions saved to {args.record_actions}")
