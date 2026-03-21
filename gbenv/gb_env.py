@@ -340,7 +340,9 @@ class PentaDragonEnv(GBEnv):
                 "room": 0xFFBD,
                 "boss": 0xFFBF,
                 "gameplay": 0xFFC1,
-                "hp": 0xDCDD,
+                # Note: DCDD always 0 during normal gameplay (verified).
+                # FFDD is volatile scratch register, NOT lives.
+                # Actual HP: C07D tilemap value (0xD0=full, 0xC8=damaged)
             },
             state_addresses={
                 "SCX": 0xFF43,
@@ -348,6 +350,7 @@ class PentaDragonEnv(GBEnv):
                 "form": 0xFFBE,
                 "powerup": 0xFFC0,
                 "stage": 0xFFD0,
+                "hp_tile": 0xC07D,  # Actual HP display (0xD0=full)
             },
             frames_per_step=4,
             boot_frames=200,

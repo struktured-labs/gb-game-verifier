@@ -1,0 +1,145 @@
+{
+  "total_steps": 951,
+  "overall_match_rate": 0.6688865521673093,
+  "field_rates": {
+    "powerup": 1.0,
+    "stage": 1.0,
+    "reward_gameplay": 1.0,
+    "form": 1.0,
+    "SCX": 0.832807570977918,
+    "reward_boss": 0.8201892744479495,
+    "SCY": 0.22712933753943218,
+    "reward_room": 0.13354363827549948,
+    "hp_tile": 0.006309148264984227
+  },
+  "first_divergence": {
+    "SCY": 65,
+    "hp_tile": 6,
+    "reward_boss": 780,
+    "reward_room": 6,
+    "SCX": 5
+  },
+  "divergence_count": 100,
+  "divergences": [
+    {
+      "step": 5,
+      "field": "SCX",
+      "og": 8,
+      "rm": 12
+    },
+    {
+      "step": 6,
+      "field": "hp_tile",
+      "og": 208,
+      "rm": 0
+    },
+    {
+      "step": 6,
+      "field": "reward_room",
+      "og": 7,
+      "rm": 5
+    },
+    {
+      "step": 6,
+      "field": "SCX",
+      "og": 4,
+      "rm": 12
+    },
+    {
+      "step": 7,
+      "field": "hp_tile",
+      "og": 208,
+      "rm": 0
+    },
+    {
+      "step": 7,
+      "field": "reward_room",
+      "og": 7,
+      "rm": 5
+    },
+    {
+      "step": 7,
+      "field": "SCX",
+      "og": 4,
+      "rm": 12
+    },
+    {
+      "step": 8,
+      "field": "hp_tile",
+      "og": 208,
+      "rm": 0
+    },
+    {
+      "step": 8,
+      "field": "reward_room",
+      "og": 7,
+      "rm": 5
+    },
+    {
+      "step": 8,
+      "field": "SCX",
+      "og": 0,
+      "rm": 12
+    },
+    {
+      "step": 9,
+      "field": "hp_tile",
+      "og": 208,
+      "rm": 0
+    },
+    {
+      "step": 9,
+      "field": "reward_room",
+      "og": 7,
+      "rm": 5
+    },
+    {
+      "step": 10,
+      "field": "hp_tile",
+      "og": 208,
+      "rm": 0
+    },
+    {
+      "step": 10,
+      "field": "reward_room",
+      "og": 7,
+      "rm": 5
+    },
+    {
+      "step": 10,
+      "field": "SCX",
+      "og": 0,
+      "rm": 12
+    },
+    {
+      "step": 11,
+      "field": "hp_tile",
+      "og": 208,
+      "rm": 0
+    },
+    {
+      "step": 11,
+      "field": "reward_room",
+      "og": 7,
+      "rm": 5
+    },
+    {
+      "step": 12,
+      "field": "hp_tile",
+      "og": 208,
+      "rm": 0
+    },
+    {
+      "step": 12,
+      "field": "reward_room",
+      "og": 7,
+      "rm": 5
+    },
+    {
+      "step": 12,
+      "field": "SCX",
+      "og": 8,
+      "rm": 12
+    }
+  ]
+}
