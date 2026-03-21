@@ -1,0 +1,260 @@
+{
+  "scan_info": {
+    "og_rom": "/home/struktured/projects/gb-game-verifier/pipeline_output/comprehensive_og.csv",
+    "remake_rom": "/home/struktured/projects/gb-game-verifier/pipeline_output/comprehensive_remake.csv",
+    "og_samples": 66,
+    "remake_samples": 66,
+    "common_gf_count": 66,
+    "gameplay_frames_scanned": 2000,
+    "sample_interval": 30,
+    "actions": {
+      "movement": "RIGHT held continuously, UP/DOWN cycling every 300 frames",
+      "shooting": "A pressed every 15 frames (auto-fire)",
+      "form_toggle": "SELECT at gf=500, 1000, 1500",
+      "stabilization": "200 frames after FFC1=1 before recording"
+    }
+  },
+  "field_match_rates": {
+    "ffc1": {
+      "match_rate": 100.0,
+      "matches": 66,
+      "mismatches": 0,
+      "total_compared": 66,
+      "mismatch_examples": []
+    },
+    "ffbd": {
+      "match_rate": 4.5,
+      "matches": 3,
+      "mismatches": 63,
+      "total_compared": 66,
+      "mismatch_examples": [
+        {
+          "gf": 30,
+          "og": 3,
+          "remake": 5
+        },
+        {
+          "gf": 60,
+          "og": 3,
+          "remake": 5
+        },
+        {
+          "gf": 90,
+          "og": 3,
+          "remake": 5
+        },
+        {
+          "gf": 120,
+          "og": 3,
+          "remake": 5
+        },
+        {
+          "gf": 150,
+          "og": 3,
+          "remake": 5
+        }
+      ]
+    },
+    "ffbe": {
+      "match_rate": 50.0,
+      "matches": 33,
+      "mismatches": 33,
+      "total_compared": 66,
+      "mismatch_examples": [
+        {
+          "gf": 510,
+          "og": 0,
+          "remake": 1
+        },
+        {
+          "gf": 540,
+          "og": 0,
+          "remake": 1
+        },
+        {
+          "gf": 570,
+          "og": 0,
+          "remake": 1
+        },
+        {
+          "gf": 600,
+          "og": 0,
+          "remake": 1
+        },
+        {
+          "gf": 630,
+          "og": 0,
+          "remake": 1
+        }
+      ]
+    },
+    "ffbf": {
+      "match_rate": 100.0,
+      "matches": 66,
+      "mismatches": 0,
+      "total_compared": 66,
+      "mismatch_examples": []
+    },
+    "ffc0": {
+      "match_rate": 100.0,
+      "matches": 66,
+      "mismatches": 0,
+      "total_compared": 66,
+      "mismatch_examples": []
+    },
+    "ffd0": {
+      "match_rate": 100.0,
+      "matches": 66,
+      "mismatches": 0,
+      "total_compared": 66,
+      "mismatch_examples": []
+    }
+  },
+  "form_toggles": {
+    "og": {
+      "changes": [],
+      "unique_forms_seen": [
+        0
+      ],
+      "change_count": 0
+    },
+    "remake": {
+      "changes": [
+        {
+          "gf": 510,
+          "frame": 973,
+          "from": 0,
+          "to": 1
+        },
+        {
+          "gf": 1020,
+          "frame": 1483,
+          "from": 1,
+          "to": 0
+        },
+        {
+          "gf": 1530,
+          "frame": 1993,
+          "from": 0,
+          "to": 1
+        }
+      ],
+      "unique_forms_seen": [
+        0,
+        1
+      ],
+      "change_count": 3
+    },
+    "analysis": "MISMATCH: OG has 0 toggles, remake has 3"
+  },
+  "room_transitions": {
+    "og": {
+      "changes": [
+        {
+          "gf": 180,
+          "frame": 747,
+          "from": 3,
+          "to": 5
+        },
+        {
+          "gf": 330,
+          "frame": 897,
+          "from": 5,
+          "to": 1
+        },
+        {
+          "gf": 480,
+          "frame": 1047,
+          "from": 1,
+          "to": 5
+        },
+        {
+          "gf": 630,
+          "frame": 1197,
+          "from": 5,
+          "to": 1
+        },
+        {
+          "gf": 780,
+          "frame": 1347,
+          "from": 1,
+          "to": 5
+        },
+        {
+          "gf": 930,
+          "frame": 1497,
+          "from": 5,
+          "to": 1
+        }
+      ],
+      "unique_rooms_visited": [
+        1,
+        3,
+        5
+      ],
+      "room_count": 3
+    },
+    "remake": {
+      "changes": [
+        {
+          "gf": 270,
+          "frame": 733,
+          "from": 5,
+          "to": 3
+        }
+      ],
+      "unique_rooms_visited": [
+        3,
+        5
+      ],
+      "room_count": 2
+    },
+    "analysis": "DIFFER: OG rooms [1, 3, 5] vs remake rooms [3, 5]"
+  },
+  "sprite_counts": {
+    "og": {
+      "mean": 16.67,
+      "min": 4,
+      "max": 22,
+      "median": 19.0,
+      "total_samples": 66,
+      "zero_count": 0,
+      "nonzero_count": 66
+    },
+    "remake": {
+      "mean": 14.83,
+      "min": 0,
+      "max": 33,
+      "median": 16.0,
+      "total_samples": 66,
+      "zero_count": 1,
+      "nonzero_count": 65
+    },
+    "comparison": {
+      "mean_delta": -1.84,
+      "og_has_more_sprites": true
+    }
+  },
+  "scroll_analysis": {
+    "og": {
+      "min": 8,
+      "max": 12,
+      "unique": 2
+    },
+    "remake": {
+      "min": 8,
+      "max": 12,
+      "unique": 2
+    }
+  },
+  "summary": {
+    "overall_field_match_rate": 75.8,
+    "total_fields_compared": 6,
+    "total_comparisons": 396,
+    "total_matches": 300,
+    "form_toggle_match": false,
+    "room_set_match": false,
+    "og_avg_sprites": 16.67,
+    "remake_avg_sprites": 14.83
+  }
+}
