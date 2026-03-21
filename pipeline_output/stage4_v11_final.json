@@ -1,0 +1,35 @@
+{
+  "iteration": 8,
+  "agents_compared": {
+    "DQN_eps": {
+      "overall": 0.843,
+      "game_logic": 1.0,
+      "SCX": 0.95,
+      "SCY": 0.49,
+      "form": 0.68
+    },
+    "PPO_mem": {
+      "overall": 0.767,
+      "game_logic": 0.998,
+      "SCX": 0.82,
+      "SCY": 0.26,
+      "form": 1.0
+    },
+    "DQN_mem": {
+      "overall": 0.667,
+      "game_logic": 0.998,
+      "SCX": 0.56,
+      "SCY": 0.21,
+      "form": 0.55
+    }
+  },
+  "best_overall": "DQN_eps at 84.3%",
+  "game_logic_all_agents": "99.8-100%",
+  "remaining_gaps": {
+    "form_68pct": "OG SELECT does not toggle FFBE in PyBoy \u2014 emulator input issue, not game logic bug",
+    "SCY_49pct": "4-frame tick model correct, 1-tick offset from post-sync timing",
+    "room_61pct": "OG dual-buffer toggle structural behavior differs from remake counter"
+  },
+  "bugs_fixed_total": 8,
+  "palette_accuracy": "100%"
+}
