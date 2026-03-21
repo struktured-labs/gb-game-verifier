@@ -1,0 +1,70 @@
+{
+  "test": "stage5_v5_extended",
+  "description": "Extended colorization verification on remake ROM \u2014 3000 gameplay frames with walking, shooting, UP/DOWN, and SELECT tests",
+  "rom": "penta_dragon_dx.gbc (remake)",
+  "total_samples": 65,
+  "gameplay_frames": 3000,
+  "verdicts": {
+    "form_toggle_bug9_fixed": {
+      "pass": true,
+      "detail": "form values observed: [0]. Never changed from 0 (Witch)",
+      "select_presses": 2,
+      "form_changes": 0
+    },
+    "scy_responds_to_input": {
+      "pass": true,
+      "detail": "SCY values observed: [0, 4, 8, 12] (4 distinct)",
+      "scy_range": [
+        0,
+        12
+      ]
+    },
+    "sprite_count_reasonable": {
+      "pass": true,
+      "detail": "min=0, max=19, avg=13.4",
+      "min": 0,
+      "max": 19,
+      "avg": 13.4
+    },
+    "no_boss_in_3000_frames": {
+      "pass": true,
+      "detail": "Boss flags observed: [0]"
+    }
+  },
+  "gameplay_stats": {
+    "damage_events": 24,
+    "respawns": 1,
+    "lives_start": 23,
+    "lives_end": 22,
+    "hp_start": 255,
+    "hp_end": 135,
+    "invuln_samples": 32,
+    "invuln_pct": 49.2,
+    "scx_range": [
+      8,
+      12
+    ],
+    "scx_distinct": 2,
+    "scy_range": [
+      0,
+      12
+    ],
+    "scy_distinct": 4,
+    "player_x_values": [
+      72
+    ],
+    "player_y_values": [
+      64
+    ],
+    "score_end": 40,
+    "section_timer_max": 3113,
+    "stage": [
+      1
+    ],
+    "powerup_values": [
+      0
+    ],
+    "menu_open_samples": 0
+  },
+  "overall_pass": true
+}
