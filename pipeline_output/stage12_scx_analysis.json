@@ -1,0 +1,113 @@
+{
+  "analysis_date": "2026-03-21",
+  "investigation": "SCX and room (FFBD) divergence between OG and remake Penta Dragon",
+
+  "root_causes": {
+    "cause_1_section_timer_rate": {
+      "description": "The remake's section_timer increments every VBlank frame (60 Hz), but the OG's DCBB barely changes. The remake's DCBB countdown goes from 255 to 121 in just 155 gameplay frames, while OG's DCBB stays at 255 for 600+ frames. The remake's gamestate_update() runs once per VBlank, but OG's equivalent logic runs on a much slower game tick (~1/4th rate or slower).",
+      "evidence": {
+        "og_dcbb_at_frame_155": 255,
+        "rm_dcbb_at_frame_155": 121,
+        "dcbb_match_over_500_steps": "0%",
+        "rm_dcbb_decrement_rate": "1 per frame (section_timer increments every VBlank)",
+        "og_dcbb_decrement_rate": "~1 per 300-400 frames (much slower game loop)"
+      },
+      "impact": "Remake hits room_interval=390 threshold at gameplay frame ~155 (200 post-sync + 155 = 355 total post-sync), triggering room 5->3 transition. OG never hits this threshold in the test window because its section_timer runs ~4-8x slower."
+    },
+    "cause_2_scx_scroll_animation": {
+      "description": "When room changes (5->3), the remake triggers a 60-frame scroll animation cycling SCX through 0->4->8->12->0->4->... This creates the repeating SCX oscillation pattern seen in the trace. OG's SCX stays locked at 12 because it never transitions rooms in the test window.",
+      "evidence": {
+        "rm_scx_pattern": "12->0->4->8->12->0->... (5-frame cycle)",
+        "og_scx_pattern": "stays at 12 indefinitely",
+        "rm_room_transition": "frame 155: room 5->3",
+        "og_room_transition": "none in 600 frames"
+      }
+    }
+  },
+
+  "initial_alignment": {
+    "description": "OG and remake DO align perfectly for the first ~155 gameplay frames after 200 post-sync stabilization. Both start at SCX=12, FFBD=5, FFC1=1.",
+    "scx_aligned_at_200_post_sync": true,
+    "room_aligned_at_200_post_sync": true,
+    "first_divergence_frame": 155,
+    "first_divergence_step_fps4": 38
+  },
+
+  "scx_delay_analysis": {
+    "og_scx_delay": {
+      "initial_scx": 0,
+      "transition_frame": 182,
+      "final_scx": 12,
+      "confirmed_180_frame_delay": true,
+      "description": "OG starts SCX=0 at FFC1=1, then jumps to SCX=12 at post-sync frame 182. This matches the 180-frame scx_delay in the remake."
+    },
+    "rm_scx_delay": {
+      "initial_scx": 8,
+      "transition_frame": 145,
+      "final_scx": 12,
+      "description": "Remake starts SCX=8 at FFC1=1 (title screen remnant). The stage intro sets SCX=0 at intro_timer=290, but FFC1 is already 1 before that. The 180-frame scx_delay counts down during post-sync (before the analysis window starts), reaching 0 at post-sync frame ~145, setting SCX from 8 to 12."
+    },
+    "timing_difference": "OG's scx_delay fires 37 frames later than remake's (182 vs 145). This doesn't cause immediate divergence because both end up at SCX=12, but it reveals a section_timer offset."
+  },
+
+  "post_sync_duration_tests": {
+    "200_frames": {
+      "scx_aligned": true,
+      "room_aligned": true,
+      "verdict": "Sufficient for initial alignment but diverges at gameplay frame 155"
+    },
+    "250_frames": {
+      "scx_aligned": true,
+      "room_aligned": true,
+      "verdict": "Same as 200 — initial alignment holds, diverges at same gameplay frame"
+    },
+    "300_frames": {
+      "scx_aligned": true,
+      "room_aligned": true,
+      "verdict": "Same as 200/250 — post-sync duration does NOT fix the divergence because the root cause is section_timer rate"
+    },
+    "conclusion": "Increasing post-sync duration does NOT help. The divergence is caused by the remake's section_timer running too fast, not by sync timing."
+  },
+
+  "long_term_match_rates": {
+    "over_100_steps_fps4": {
+      "scx_match": "41%",
+      "room_match": "38%"
+    },
+    "over_500_steps_fps4": {
+      "scx_match": "8%",
+      "room_match": "7%",
+      "dcbb_match": "0%"
+    }
+  },
+
+  "recommended_fix": {
+    "primary": "Reduce gamestate_update() call rate to match OG's game tick. The OG appears to run its main logic loop at ~15 Hz (every 4th VBlank), not every VBlank. The remake calls gamestate_update() every VBlank frame via wait_vbl_done(). Fix: add a 4-frame game tick counter in main() and only call gamestate_update() on tick boundaries.",
+    "code_change": "In main.c game loop, add: static uint8_t game_tick = 0; game_tick = (game_tick+1)&3; then wrap gamestate_update() and related calls in if(game_tick==0). This would make section_timer increment at 15 Hz, matching OG's DCBB rate.",
+    "secondary": "Alternatively, multiply all timer thresholds by 4 (room_interval 390->1560, SECT0_DURATION/SECT1_DURATION *= 4) but this is less clean.",
+    "dcbb_sync": "Also fix the DCBB countdown formula: OG decrements DCBB by 1 every ~4 frames, not every frame. The current formula (255 - section_timer & 0xFF) wraps too fast."
+  },
+
+  "test_data": {
+    "og_behavior_summary": {
+      "ffc1_sync_delay": "1 frame after boot sequence",
+      "scx_initial": 0,
+      "scx_after_182_frames": 12,
+      "scx_stable": "stays at 12 for 600+ frames",
+      "ffbd_initial": 5,
+      "ffbd_stable": "stays at 5 for 600+ frames",
+      "dcbb_initial": 255,
+      "dcbb_at_600_frames": "still 255 (barely decrements)"
+    },
+    "rm_behavior_summary": {
+      "ffc1_sync_delay": "0 frames (immediate)",
+      "scx_initial": 8,
+      "scx_after_145_frames": 12,
+      "scx_at_155_frames": "begins oscillating 0->4->8->12->0... (room transition animation)",
+      "ffbd_initial": 5,
+      "ffbd_at_155_frames": "changes to 3",
+      "dcbb_initial": "~17 (already counting down during post-sync)",
+      "dcbb_decrement_rate": "1 per frame (way too fast vs OG)"
+    }
+  }
+}
