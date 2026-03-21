@@ -39,3 +39,14 @@
 10. Sara visible during transition — OG hides 180 frames
 11. No vertical scroll — OG scrolls SCY with D-pad
 12. SCX not updating on room change — stayed at 12
+
+## Tools (8 total)
+
+1. `run_comparison.sh` — one-command dual-ROM runner
+2. `diff_report.py` — visual bar-chart scorecard  
+3. `regression_test.py` — CI-ready threshold checker
+4. `timeline.py` — temporal divergence visualization
+5. `summary.py` — one-line CI output
+6. `lua/state_dumper.lua` — mGBA state capture
+7. `lua/memory_scanner.lua` — address auto-discovery
+8. `lua/input_recorder.lua` — human play input recording
