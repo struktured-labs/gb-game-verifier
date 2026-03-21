@@ -35,7 +35,8 @@ import numpy as np
 
 
 def run_with_model(model, rom_path, reward_addresses, state_addresses,
-                   n_steps=1000, cgb=False, frames_per_step=4):
+                   n_steps=1000, cgb=False, frames_per_step=4,
+                   boot_frames=200, boot_sequence=None):
     """Run trained agent on a ROM, return (actions, trajectory)."""
     from gb_env import GBEnv
 
@@ -46,6 +47,8 @@ def run_with_model(model, rom_path, reward_addresses, state_addresses,
         frames_per_step=frames_per_step,
         cgb=cgb,
         max_steps=n_steps + 100,
+        boot_frames=boot_frames,
+        boot_sequence=boot_sequence,
     )
 
     obs, info = env.reset()
@@ -65,7 +68,8 @@ def run_with_model(model, rom_path, reward_addresses, state_addresses,
 
 
 def replay_actions(rom_path, actions, reward_addresses, state_addresses,
-                   cgb=False, frames_per_step=4):
+                   cgb=False, frames_per_step=4, boot_frames=200,
+                   boot_sequence=None):
     """Replay recorded actions on a ROM, return trajectory."""
     from gb_env import GBEnv
 
@@ -76,6 +80,8 @@ def replay_actions(rom_path, actions, reward_addresses, state_addresses,
         frames_per_step=frames_per_step,
         cgb=cgb,
         max_steps=len(actions) + 100,
+        boot_frames=boot_frames,
+        boot_sequence=boot_sequence,
     )
 
     obs, info = env.reset()
@@ -172,7 +178,9 @@ def compare_trajectories(og_traj, rm_traj, exclude=None, verbose=True):
 def transfer_and_compare(model_path, og_rom, remake_rom, reward_addresses,
                          state_addresses, n_steps=1000, og_cgb=False,
                          rm_cgb=False, frames_per_step=4,
-                         actions_path=None, random_seed=None):
+                         actions_path=None, random_seed=None,
+                         og_boot_sequence=None, rm_boot_sequence=None,
+                         boot_frames=200):
     """Full pipeline: train/load → record on OG → replay on remake → compare."""
     from stable_baselines3 import PPO, DQN
 
@@ -196,6 +204,7 @@ def transfer_and_compare(model_path, og_rom, remake_rom, reward_addresses,
         actions, og_traj = run_with_model(
             model, og_rom, reward_addresses, state_addresses,
             n_steps=n_steps, cgb=og_cgb, frames_per_step=frames_per_step,
+            boot_frames=boot_frames, boot_sequence=og_boot_sequence,
         )
         print(f"  Recorded {len(actions)} actions, {len(og_traj)} states")
     else:
@@ -207,14 +216,17 @@ def transfer_and_compare(model_path, og_rom, remake_rom, reward_addresses,
         og_traj = replay_actions(
             og_rom, actions, reward_addresses, state_addresses,
             cgb=og_cgb, frames_per_step=frames_per_step,
+            boot_frames=boot_frames, boot_sequence=og_boot_sequence,
         )
         print(f"  Captured {len(og_traj)} states")
 
-    # Replay on remake
+    # Replay on remake (may need different boot sequence)
+    rm_boot = rm_boot_sequence if rm_boot_sequence is not None else og_boot_sequence
     print(f"Replaying {len(actions)} actions on remake ROM...")
     rm_traj = replay_actions(
         remake_rom, actions, reward_addresses, state_addresses,
         cgb=rm_cgb, frames_per_step=frames_per_step,
+        boot_frames=boot_frames, boot_sequence=rm_boot,
     )
     print(f"  Captured {len(rm_traj)} states")
 
@@ -245,10 +257,13 @@ def main():
     if args.reward_config:
         from train import load_reward_config
         reward_addrs, state_addrs = load_reward_config(args.reward_config)
+        og_boot_seq = None
     else:
         from re_discovery import PENTA_DRAGON_CONFIG
+        from gb_env import PentaDragonEnv
         reward_addrs = PENTA_DRAGON_CONFIG.get_reward_addresses()
         state_addrs = PENTA_DRAGON_CONFIG.get_state_addresses()
+        og_boot_seq = PentaDragonEnv.BOOT_SEQUENCE
 
     report, actions, og_traj, rm_traj = transfer_and_compare(
         model_path=args.model,
@@ -262,6 +277,7 @@ def main():
         frames_per_step=args.frames_per_step,
         actions_path=args.actions,
         random_seed=args.seed if args.random else None,
+        og_boot_sequence=og_boot_seq,
     )
 
     if args.save_actions:
