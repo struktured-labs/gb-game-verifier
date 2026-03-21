@@ -1,0 +1,143 @@
+{
+  "total_steps": 1001,
+  "overall_match_rate": 0.7521228771228772,
+  "field_rates": {
+    "powerup": 1.0,
+    "form": 1.0,
+    "stage": 1.0,
+    "reward_boss": 1.0,
+    "reward_gameplay": 0.9920079920079921,
+    "SCX": 0.8291708291708292,
+    "SCY": 0.14685314685314685,
+    "reward_room": 0.04895104895104895
+  },
+  "first_divergence": {
+    "SCY": 9,
+    "SCX": 5,
+    "reward_room": 6,
+    "reward_gameplay": 675
+  },
+  "divergence_count": 100,
+  "divergences": [
+    {
+      "step": 5,
+      "field": "SCX",
+      "og": 8,
+      "rm": 12
+    },
+    {
+      "step": 6,
+      "field": "SCX",
+      "og": 4,
+      "rm": 12
+    },
+    {
+      "step": 6,
+      "field": "reward_room",
+      "og": 7,
+      "rm": 5
+    },
+    {
+      "step": 7,
+      "field": "SCX",
+      "og": 0,
+      "rm": 12
+    },
+    {
+      "step": 7,
+      "field": "reward_room",
+      "og": 7,
+      "rm": 5
+    },
+    {
+      "step": 8,
+      "field": "SCX",
+      "og": 0,
+      "rm": 12
+    },
+    {
+      "step": 8,
+      "field": "reward_room",
+      "og": 7,
+      "rm": 5
+    },
+    {
+      "step": 9,
+      "field": "SCY",
+      "og": 12,
+      "rm": 0
+    },
+    {
+      "step": 9,
+      "field": "SCX",
+      "og": 0,
+      "rm": 12
+    },
+    {
+      "step": 9,
+      "field": "reward_room",
+      "og": 1,
+      "rm": 5
+    },
+    {
+      "step": 10,
+      "field": "SCY",
+      "og": 8,
+      "rm": 0
+    },
+    {
+      "step": 10,
+      "field": "SCX",
+      "og": 0,
+      "rm": 12
+    },
+    {
+      "step": 10,
+      "field": "reward_room",
+      "og": 1,
+      "rm": 5
+    },
+    {
+      "step": 11,
+      "field": "SCY",
+      "og": 4,
+      "rm": 0
+    },
+    {
+      "step": 11,
+      "field": "SCX",
+      "og": 0,
+      "rm": 12
+    },
+    {
+      "step": 11,
+      "field": "reward_room",
+      "og": 1,
+      "rm": 5
+    },
+    {
+      "step": 12,
+      "field": "SCX",
+      "og": 0,
+      "rm": 12
+    },
+    {
+      "step": 12,
+      "field": "reward_room",
+      "og": 1,
+      "rm": 5
+    },
+    {
+      "step": 13,
+      "field": "SCY",
+      "og": 12,
+      "rm": 0
+    },
+    {
+      "step": 13,
+      "field": "SCX",
+      "og": 0,
+      "rm": 12
+    }
+  ]
+}
