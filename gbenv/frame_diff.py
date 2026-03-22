@@ -184,7 +184,7 @@ def diff_frames(og_frames, rm_frames, output_dir):
         total_diff += mean_diff
         if mean_diff > max_diff:
             max_diff = mean_diff
-        if mean_diff < 0.5:
+        if pct_different < 15.0:  # <15% pixels differ = good match
             perfect_frames += 1
 
         # Save diff image (amplified for visibility)
