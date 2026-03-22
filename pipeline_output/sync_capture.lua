@@ -27,7 +27,7 @@ callbacks:add("frame", function()
     end
     if not booted then return end
     gf = gf + 1
-    if gf <= 200 then return end
+    if gf <= 400 then return end
 
     -- Hold RIGHT to scroll
     emu:addKey(4)
