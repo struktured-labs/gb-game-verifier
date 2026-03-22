@@ -170,10 +170,10 @@ def diff_frames(og_frames, rm_frames, output_dir):
             continue
 
         # Structural comparison: binarize to dark/light
-        # Ignores shade variations within "light" (floor) and "dark" (wall) regions
-        # Only cares about structural layout: is this pixel part of a wall or floor?
-        og_bin = (og_img < 128).astype(float)  # 1 = dark (wall/item), 0 = light (floor)
-        rm_bin = (rm_img < 128).astype(float)
+        # Threshold 64: DMG dithered pixels (value 82) count as "light"
+        # This removes DMG palette dithering artifacts from the comparison
+        og_bin = (og_img < 64).astype(float)  # 1 = dark (wall/item), 0 = light (floor)
+        rm_bin = (rm_img < 64).astype(float)
 
         # Structural diff: do both ROMs agree on dark vs light?
         diff = np.abs(og_bin - rm_bin)
