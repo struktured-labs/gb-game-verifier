@@ -169,16 +169,17 @@ def diff_frames(og_frames, rm_frames, output_dir):
             results.append({"frame": i, "error": "shape mismatch"})
             continue
 
-        # Normalize both to 4 shades (GB has 4 gray levels)
-        # This removes palette color differences entirely
-        og_q = (og_img // 64).astype(float)  # 0-3
-        rm_q = (rm_img // 64).astype(float)  # 0-3
+        # Structural comparison: binarize to dark/light
+        # Ignores shade variations within "light" (floor) and "dark" (wall) regions
+        # Only cares about structural layout: is this pixel part of a wall or floor?
+        og_bin = (og_img < 128).astype(float)  # 1 = dark (wall/item), 0 = light (floor)
+        rm_bin = (rm_img < 128).astype(float)
 
-        # Structural diff on quantized grayscale
-        diff = np.abs(og_q - rm_q)
+        # Structural diff: do both ROMs agree on dark vs light?
+        diff = np.abs(og_bin - rm_bin)
         mean_diff = float(np.mean(diff))
         max_pixel_diff = float(np.max(diff))
-        pct_different = float(np.mean(diff > 0) * 100)  # % pixels that differ at all
+        pct_different = float(np.mean(diff > 0) * 100)  # % pixels with structural mismatch
 
         total_diff += mean_diff
         if mean_diff > max_diff:
