@@ -162,18 +162,23 @@ def diff_frames(og_frames, rm_frames, output_dir):
     perfect_frames = 0
 
     for i in range(n):
-        og_img = np.array(Image.open(og_frames[i]).convert("RGB"))
-        rm_img = np.array(Image.open(rm_frames[i]).convert("RGB"))
+        og_img = np.array(Image.open(og_frames[i]).convert("L"))  # Grayscale
+        rm_img = np.array(Image.open(rm_frames[i]).convert("L"))  # Grayscale
 
         if og_img.shape != rm_img.shape:
             results.append({"frame": i, "error": "shape mismatch"})
             continue
 
-        # Per-pixel absolute difference
-        diff = np.abs(og_img.astype(float) - rm_img.astype(float))
+        # Normalize both to 4 shades (GB has 4 gray levels)
+        # This removes palette color differences entirely
+        og_q = (og_img // 64).astype(float)  # 0-3
+        rm_q = (rm_img // 64).astype(float)  # 0-3
+
+        # Structural diff on quantized grayscale
+        diff = np.abs(og_q - rm_q)
         mean_diff = float(np.mean(diff))
         max_pixel_diff = float(np.max(diff))
-        pct_different = float(np.mean(diff > 10) * 100)  # % pixels with >10 diff
+        pct_different = float(np.mean(diff > 0) * 100)  # % pixels that differ at all
 
         total_diff += mean_diff
         if mean_diff > max_diff:
@@ -182,9 +187,13 @@ def diff_frames(og_frames, rm_frames, output_dir):
             perfect_frames += 1
 
         # Save diff image (amplified for visibility)
-        if i < 20 or pct_different > 5:  # Save first 20 + any high-diff frames
-            diff_img = np.clip(diff * 5, 0, 255).astype(np.uint8)
-            Image.fromarray(diff_img).save(out / f"diff_{i:04d}.png")
+        if i < 20 or pct_different > 5:
+            diff_img = np.clip(diff * 85, 0, 255).astype(np.uint8)  # 0-3 → 0-255
+            Image.fromarray(diff_img, mode='L').save(out / f"diff_{i:04d}.png")
+            # Also save side-by-side for easy comparison
+            if i < 5:
+                side = np.hstack([og_img, rm_img])
+                Image.fromarray(side, mode='L').save(out / f"side_{i:04d}.png")
 
         results.append({
             "frame": i,
